@@ -3,10 +3,8 @@ import traceback
 
 import pandas as pd
 from sqlalchemy import MetaData, Table, select
-from fancy_logging import create_logger
+from fancy_logging import logger
 import argparse
-
-logger = create_logger(name="helper_function", level=logging.DEBUG)
 
 def str2bool(v):
     if isinstance(v, bool):

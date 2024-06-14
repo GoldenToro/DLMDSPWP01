@@ -1,9 +1,9 @@
+from fancy_logging import logger
 import os, traceback
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, Float, inspect
 import pandas as pd
 import argparse
 
-from fancy_logging import create_logger
 from helper_functions import *
 from visualize_functions import load_xy_as_line_plot, show_plots
 
@@ -40,7 +40,6 @@ def fill_table(engine, table_name, data_path):
     except Exception as e:
         logger.warning(f"{e}\n{traceback.format_exc()}")
 
-
 def drop_table(engine, table_name):
     try:
         metadata = MetaData()
@@ -52,8 +51,8 @@ def drop_table(engine, table_name):
     except Exception as e:
         logger.warning(f"Could not drop Table '{table_name}'. {e}")
 
+def load_dataset(csv_path="Dataset2", db_path_to_file="db.sqlite3", overwrite=False, with_visualizing=True):
 
-def main(csv_path, db_path_to_file, overwrite, with_visualizing):
     logger.debug(f"CSV-Path: {csv_path}")
     logger.debug(f"DB-Path: {db_path_to_file}")
     logger.debug(f"Overwrite?: {overwrite}")
@@ -70,13 +69,13 @@ def main(csv_path, db_path_to_file, overwrite, with_visualizing):
             except Exception as error:
                 logger.warning(error)
 
+    # Create SQLAlchemy engine
+    engine = create_engine(f'sqlite:///{db_path_to_file}')
+
     if db_exists and not overwrite:
         logger.warning("Database already exists, but should not be overwritten, skipping Data Import")
-        return
 
     else:
-        # Create SQLAlchemy engine
-        engine = create_engine(f'sqlite:///{db_path_to_file}')
 
         if db_exists:
             drop_table(engine, "train")
@@ -100,7 +99,6 @@ def main(csv_path, db_path_to_file, overwrite, with_visualizing):
 
     logger.debug(f"END")
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load CSV data into SQLite database.')
     parser.add_argument('--csv_path', type=str, default="Dataset2", help='Path to the CSV files.')
@@ -108,10 +106,7 @@ if __name__ == "__main__":
     parser.add_argument('--overwrite', type=str2bool, default=None, help='Overwrite the existing database.')
     #TODO Default auf False setzen
     parser.add_argument('--visualize_import', type=str2bool, default=True, help='Show Data after Import')
-    parser.add_argument('--logging_level', type=str, default="DEBUG", help='Loggin Level.')
 
     args = parser.parse_args()
 
-    logger = create_logger(name="load_data_sets", level=args.logging_level)
-
-    main(args.csv_path, args.db_path_to_file, args.overwrite, args.visualize_import)
+    load_dataset(args.csv_path, args.db_path_to_file, args.overwrite, args.visualize_import)

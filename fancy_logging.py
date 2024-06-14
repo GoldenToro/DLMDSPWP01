@@ -1,14 +1,16 @@
 import logging
 
-class ColorFormatter(logging.Formatter):
+logging_level = logging.DEBUG
 
+
+class ColorFormatter(logging.Formatter):
     green = "\x1b[1;32m"
     grey = "\x1b[1;20m"
     yellow = "\x1b[33;20m"
     red = "\x1b[31;20m"
     bold_red = "\x1b[31;1m"
     reset = "\x1b[0m"
-    format = "%(asctime)s - %(name)s (%(filename)s:%(lineno)d)\t- %(levelname)s\t- %(message)s "
+    format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)"
 
     FORMATS = {
         logging.DEBUG: grey + format + reset,
@@ -24,23 +26,13 @@ class ColorFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def create_logger(name="no-name",level="DEBUG"):
+logger = logging.getLogger("DLMDSPWP01")
+logger.setLevel(logging_level)
 
-    log_level = logging.DEBUG
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging_level)
+ch.setFormatter(ColorFormatter())
 
-    if level == "INFO":
-        log_level = logging.INFO
+logger.addHandler(ch)
 
-    # create logger with 'spam_application'
-    logger = logging.getLogger(name)
-    logger.setLevel(level)
-
-    # create console handler with a higher log level
-    ch = logging.StreamHandler()
-    ch.setLevel(level)
-
-    ch.setFormatter(ColorFormatter())
-
-    logger.addHandler(ch)
-
-    return logger

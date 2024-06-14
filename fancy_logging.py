@@ -8,7 +8,7 @@ class ColorFormatter(logging.Formatter):
     red = "\x1b[31;20m"
     bold_red = "\x1b[31;1m"
     reset = "\x1b[0m"
-    format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)"
+    format = "%(asctime)s - %(name)s (%(filename)s:%(lineno)d)\t- %(levelname)s\t- %(message)s "
 
     FORMATS = {
         logging.DEBUG: grey + format + reset,
@@ -24,14 +24,20 @@ class ColorFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def create_logger(name="no-name"):
+def create_logger(name="no-name",level="DEBUG"):
+
+    log_level = logging.DEBUG
+
+    if level == "INFO":
+        log_level = logging.INFO
+
     # create logger with 'spam_application'
     logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(level)
 
     # create console handler with a higher log level
     ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
+    ch.setLevel(level)
 
     ch.setFormatter(ColorFormatter())
 

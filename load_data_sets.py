@@ -5,7 +5,7 @@ import pandas as pd
 import argparse
 
 from helper_functions import *
-from visualize_functions import load_xy_as_line_plot, show_plots
+from visualize_functions import load_xy_as_line_plot, show_plots, FULL_SCREEN
 
 def create_xy_table(engine, table_name, count_y):
     try:
@@ -89,15 +89,11 @@ def load_dataset(csv_path="Dataset2", db_path_to_file="db.sqlite3", overwrite=Fa
 
     if with_visualizing:
         data = get_data_from_table(engine, "train")
-        load_xy_as_line_plot(data, "Training-Data")
+        load_xy_as_line_plot(data, "Original Training-Data")
         data = get_data_from_table(engine, "ideal")
-        load_xy_as_line_plot(data, "Ideal-Data")
+        load_xy_as_line_plot(data, "Original Ideal-Data")
 
         show_plots()
-
-
-
-    logger.debug(f"END")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load CSV data into SQLite database.')

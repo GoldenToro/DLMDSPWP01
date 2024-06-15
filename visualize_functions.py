@@ -10,8 +10,7 @@ SCREEN_SIZE_X = 3440
 SCREEN_SIZE_Y = 1440 - 75
 # Change the following variables to change the number of plots shown on your screen
 NUMBER_OF_PLOTS_SHOWN_VERTICAL = 2
-NUMBER_OF_PLOTS_SHOWN_HORIZONTAL = 5
-
+NUMBER_OF_PLOTS_SHOWN_HORIZONTAL = 4
 
 # Calculate Size of plots shown
 PLT_SIZE_X = SCREEN_SIZE_X / NUMBER_OF_PLOTS_SHOWN_HORIZONTAL
@@ -24,6 +23,7 @@ FULL_SCREEN = {
     'height': 1
 }
 
+
 def show_plots():
     global number_of_plots
 
@@ -34,7 +34,6 @@ def show_plots():
 
 def position_figure(position=None):
     global number_of_plots
-
 
     line = (number_of_plots * PLT_SIZE_X) // SCREEN_SIZE_X
 
@@ -51,21 +50,26 @@ def position_figure(position=None):
     number_of_plots += 1
 
 
-def load_xy_as_line_plot(data, name, position = None):
+def load_xy_as_line_plot(data, name, position=None):
     # set plot style
     style.use('ggplot')
 
     plt.figure(name)
     x = data['x'].values
-    for i in range(1, data.shape[1]):
-        function_name = f'y{i}'
-        plt.plot(x, data[function_name].values, label=function_name, linewidth=2)
+
+    for col in data.columns:
+        if col != 'x':
+            plt.plot(x, data[col].values, label=col, linewidth=2)
 
     box = plt.subplot(111).get_position()
     plt.subplot(111).set_position([box.x0, box.y0, box.width * 0.8, box.height])
 
-    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5),
-               fancybox=True, shadow=True, ncol=2)
+    plt.legend(loc='center left',
+               bbox_to_anchor=(1, 0.5),
+               fancybox=True,
+               shadow=True,
+               ncol= 2 if data.shape[1] > 25 else 1
+               )
     plt.grid(True, color="k")
     plt.ylabel('y axis')
     plt.xlabel('x axis')

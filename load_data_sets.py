@@ -73,7 +73,7 @@ def load_dataset(csv_path="Dataset2", db_path_to_file="db.sqlite3", overwrite=Fa
     engine = create_engine(f'sqlite:///{db_path_to_file}')
 
     if db_exists and not overwrite:
-        logger.warning("Database already exists, but should not be overwritten, skipping Data Import")
+        logger.warning("Database already exists and should not be overwritten. Skipping data import.")
 
     else:
 

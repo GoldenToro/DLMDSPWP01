@@ -1,55 +1,12 @@
 from fancy_logging import logger
-import os, traceback
+import os
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, Float, inspect
 import pandas as pd
 import argparse
 
 from helper_functions import *
-from visualize_functions import load_xy_as_line_plot, show_plots, FULL_SCREEN
+from visualize_functions import load_xy_as_line_plot, show_plots
 
-def create_xy_table(engine, table_name, count_y):
-    try:
-        metadata = MetaData()
-        y_columns = [Column(f"y{col}", Float) for col in range(1,count_y)]
-        data_table = Table(table_name,
-                           metadata,
-                           Column('x', Float, nullable=False),
-                           *y_columns
-                           )
-        metadata.create_all(engine)
-        logger.debug(f"Table '{table_name}' created successfully.")
-
-    except Exception as e:
-        logger.warning(f"{e}")
-
-# TODO UNIT Test, same number of columns , rows in table after filling
-def fill_table(engine, table_name, data_path):
-    try:
-        data = load_csv_data(data_path)
-        columns_count = data.shape[1]
-        logger.debug(f"Loaded {columns_count} Columns for {table_name}")
-
-        if not inspect(engine).has_table(table_name):
-            create_xy_table(engine, table_name, columns_count)
-
-        # Write data to SQLite table, using 'x' as index
-        data.set_index('x', inplace=True)
-        data.to_sql(table_name, con=engine, if_exists='append', index=True)
-        logger.debug(f"Table '{table_name}' filled successfully.")
-
-    except Exception as e:
-        logger.warning(f"{e}\n{traceback.format_exc()}")
-
-def drop_table(engine, table_name):
-    try:
-        metadata = MetaData()
-        if inspect(engine).has_table(table_name):
-            data_table = Table(table_name, metadata, autoload_with=engine)
-            data_table.drop(engine)
-        logger.debug(f"Table '{table_name}' dropped successfully.")
-
-    except Exception as e:
-        logger.warning(f"Could not drop Table '{table_name}'. {e}")
 
 def load_dataset(csv_path="Dataset2", db_path_to_file="db.sqlite3", overwrite=False, with_visualizing=True):
 
@@ -81,8 +38,8 @@ def load_dataset(csv_path="Dataset2", db_path_to_file="db.sqlite3", overwrite=Fa
             drop_table(engine, "train")
             drop_table(engine, "ideal")
 
-        fill_table(engine, "train", os.path.join(csv_path, "train.csv"))
-        fill_table(engine, "ideal", os.path.join(csv_path, "ideal.csv"))
+        fill_table(engine, "train", load_csv_data(os.path.join(csv_path, "train.csv")))
+        fill_table(engine, "ideal", load_csv_data(os.path.join(csv_path, "ideal.csv")))
 
         logger.info("Database created and filled with training and ideal data")
 

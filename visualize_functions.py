@@ -1,3 +1,5 @@
+from fancy_logging import logger
+
 import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib import style
@@ -50,7 +52,7 @@ def position_figure(position=None):
     number_of_plots += 1
 
 
-def load_xy_as_line_plot(data, name, position=None):
+def load_xy_as_line_plot(data, name, position=None, styles=None):
     # set plot style
     style.use('ggplot')
 
@@ -58,8 +60,30 @@ def load_xy_as_line_plot(data, name, position=None):
     x = data['x'].values
 
     for col in data.columns:
+
+        # Default Style:
+        style_for_this_plot = {
+            'linewidth': 2
+        }
+        type_for_this_plot = "line"
         if col != 'x':
-            plt.plot(x, data[col].values, label=col, linewidth=2)
+
+            if styles:
+                try:
+                    style_for_this_plot = styles[col]
+                    if 'type' in style_for_this_plot:
+                        type_for_this_plot = style_for_this_plot.pop('type')
+
+                except Exception as e:
+                    logger.warning(f"Style for {col} not found: {e}")
+
+
+            if type_for_this_plot == 'line':
+                plt.plot(x, data[col].values, label=col, **style_for_this_plot)
+            elif type_for_this_plot == 'scatter':
+                plt.scatter(x, data[col].values, label=col, **style_for_this_plot)
+            else:
+                raise Exception
 
     box = plt.subplot(111).get_position()
     plt.subplot(111).set_position([box.x0, box.y0, box.width * 0.8, box.height])

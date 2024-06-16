@@ -1,8 +1,24 @@
 import logging
 
-logging_level = logging.DEBUG
+LOGGING_LEVEL = logging.INFO
+
+
+class LoggingLevelError(Exception):
+    """
+    Exception raised for errors in the logging level.
+
+    :param message: Explanation of the error.
+    """
+
+    def __init__(self, message: str):
+        self.message = message
+        super().__init__(self.message)
+
 
 class ColorFormatter(logging.Formatter):
+    """
+    Custom formatter to add color to logging messages.
+    """
     green = "\x1b[1;32m"
     grey = "\x1b[1;20m"
     yellow = "\x1b[33;20m"
@@ -25,13 +41,38 @@ class ColorFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-logger = logging.getLogger("DLMDSPWP01")
-logger.setLevel(logging_level)
+class Logger:
+    """
+    Logger setup and configuration.
 
-# create console handler with a higher log level
-ch = logging.StreamHandler()
-ch.setLevel(logging_level)
-ch.setFormatter(ColorFormatter())
+    :param name: Name of the logger.
+    :param level: Logging level.
+    :raises LoggingLevelError: If the logging level is not an integer.
+    """
 
-logger.addHandler(ch)
+    def __init__(self, name: str, level: int):
+        self.logger = logging.getLogger(name)
+        try:
+            if not isinstance(level, int):
+                raise LoggingLevelError("Logging level must be an integer.")
+            self.logger.setLevel(level)
+        except LoggingLevelError as e:
+            print(e)
+            level = logging.DEBUG
+            self.logger.setLevel(level)
+        self.set_handler(level)
 
+    def set_handler(self, level: int):
+        """
+        Set the handler for the logger.
+
+        :param level: Logging level for the handler.
+        """
+        ch = logging.StreamHandler()
+        ch.setLevel(level)
+        ch.setFormatter(ColorFormatter())
+        self.logger.addHandler(ch)
+
+
+logger = Logger("DLMDSPWP01", LOGGING_LEVEL).logger
+logger.info("Logger initialized successfully.")

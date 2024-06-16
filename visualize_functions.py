@@ -1,5 +1,4 @@
 from fancy_logging import logger
-
 import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib import style
@@ -12,13 +11,16 @@ FULL_SCREEN = {
 }
 
 class PlotManager:
-    def __init__(self,
-                 screen_size_x=3440,
-                 screen_size_y=1365,
-                 num_plots_vertical=2,
-                 num_plots_horizontal=4
-                 ):
+    """
+    Class to manage plotting of figures with specific positioning on screen.
 
+    :param screen_size_x: Width of the screen in pixels.
+    :param screen_size_y: Height of the screen in pixels.
+    :param num_plots_vertical: Number of plots vertically.
+    :param num_plots_horizontal: Number of plots horizontally.
+    """
+
+    def __init__(self, screen_size_x=3440, screen_size_y=1365, num_plots_vertical=2, num_plots_horizontal=4):
         self.screen_size_x = screen_size_x
         self.screen_size_y = screen_size_y
         self.num_plots_vertical = num_plots_vertical
@@ -30,14 +32,25 @@ class PlotManager:
         self.number_of_plots = 0
 
     def show_plots(self):
-        """Show all currently plotted figures."""
+        """
+        Show all currently plotted figures.
+        """
         plt.show()
         self.number_of_plots = 0
 
-    #TODO Unit test position
-    def position_figure(self, position=None):
-        """Position the current figure window on screen."""
+    def delete_plots(self):
+        """
+        Delete all currently plotted figures without showing them.
+        """
+        plt.close('all')
+        self.number_of_plots = 0
 
+    def position_figure(self, position=None):
+        """
+        Position the current figure window on screen.
+
+        :param position: Dictionary specifying 'left', 'top', 'width', and 'height' of the figure window.
+        """
         if self.number_of_plots >= (self.num_plots_vertical * self.num_plots_horizontal):
             self.number_of_plots = 0
 
@@ -55,7 +68,15 @@ class PlotManager:
         self.number_of_plots += 1
 
     def load_xy_as_line_plot(self, data, name, position=None, styles=None, text=None):
-        """Load data and create a line plot."""
+        """
+        Load data and create a line plot.
+
+        :param data: DataFrame containing the data to plot.
+        :param name: Name of the plot.
+        :param position: Dictionary specifying 'left', 'top', 'width', and 'height' of the figure window.
+        :param styles: Dictionary specifying styles for each column.
+        :param text: Additional text to display on the plot.
+        """
         style.use('ggplot')
         plt.figure(name)
 
@@ -93,3 +114,4 @@ class PlotManager:
         plt.title(name)
 
         self.position_figure(position)
+

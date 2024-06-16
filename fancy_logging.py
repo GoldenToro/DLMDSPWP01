@@ -2,7 +2,6 @@ import logging
 
 logging_level = logging.DEBUG
 
-
 class ColorFormatter(logging.Formatter):
     green = "\x1b[1;32m"
     grey = "\x1b[1;20m"

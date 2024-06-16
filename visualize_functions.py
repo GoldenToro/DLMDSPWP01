@@ -1,7 +1,22 @@
+import random
+
 from fancy_logging import logger
+
+from bokeh.plotting import figure, show, output_file, save
+from bokeh.layouts import gridplot
+from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.models.annotations import Title
+
 import pandas as pd
-from matplotlib import pyplot as plt
-from matplotlib import style
+
+def random_color():
+    """
+    Generate a random color hex code.
+
+    :return: A random color in hex format.
+    """
+    r = lambda: random.randint(0, 255)
+    return f'#{r():02X}{r():02X}{r():02X}'
 
 FULL_SCREEN = {
     'left': 0,
@@ -29,43 +44,31 @@ class PlotManager:
         self.plt_size_x = screen_size_x / num_plots_horizontal
         self.plt_size_y = screen_size_y / num_plots_vertical
 
-        self.number_of_plots = 0
+        self.plots = []
 
     def show_plots(self):
         """
         Show all currently plotted figures.
         """
-        plt.show()
-        self.number_of_plots = 0
+        grid = gridplot(self.plots, ncols=self.num_plots_horizontal)
+        show(grid)
+        self.plots = []
 
     def delete_plots(self):
         """
         Delete all currently plotted figures without showing them.
         """
-        plt.close('all')
-        self.number_of_plots = 0
+        self.plots = []
 
-    def position_figure(self, position=None):
+    def position_figure(self, p):
         """
         Position the current figure window on screen.
 
-        :param position: Dictionary specifying 'left', 'top', 'width', and 'height' of the figure window.
+        :param p: Bokeh figure object.
         """
-        if self.number_of_plots >= (self.num_plots_vertical * self.num_plots_horizontal):
-            self.number_of_plots = 0
-
-        line = (self.number_of_plots * self.plt_size_x) // self.screen_size_x
-        pos_x = self.number_of_plots * self.plt_size_x - (line * self.screen_size_x)
-        pos_y = line * self.plt_size_y
-
-        manager = plt.get_current_fig_manager()
-
-        if position:
-            manager.window.wm_geometry(f"{int(position['width'] * self.screen_size_x)}x{int(position['height'] * self.screen_size_y)}+{int(position['left'])}+{int(position['top'])}")
-        else:
-            manager.window.wm_geometry(f"{int(self.plt_size_x)}x{int(self.plt_size_y)}+{int(pos_x)}+{int(pos_y)}")
-
-        self.number_of_plots += 1
+        # Bokeh does not have a direct equivalent to position figures on the screen,
+        # but we can manage the layout using gridplot or other layout functions.
+        self.plots.append(p)
 
     def load_xy_as_line_plot(self, data, name, position=None, styles=None, text=None):
         """
@@ -77,14 +80,14 @@ class PlotManager:
         :param styles: Dictionary specifying styles for each column.
         :param text: Additional text to display on the plot.
         """
-        style.use('ggplot')
-        plt.figure(name)
+        p = figure(title=name, width=int(self.plt_size_x), height=int(self.plt_size_y))
 
         x = data['x'].values
+        source = ColumnDataSource(data)
 
         for col in data.columns:
             if col != 'x':
-                style_for_this_plot = {'linewidth': 2}
+                style_for_this_plot = {'color': random_color()}
                 type_for_this_plot = "line"
 
                 if styles and col in styles:
@@ -93,25 +96,20 @@ class PlotManager:
                         type_for_this_plot = style_for_this_plot.pop('type')
 
                 if type_for_this_plot == 'line':
-                    plt.plot(x, data[col].values, label=col, **style_for_this_plot)
+                    p.line(x, data[col].values, legend_label=col, **style_for_this_plot)
                 elif type_for_this_plot == 'scatter':
-                    plt.scatter(x, data[col].values, label=col, **style_for_this_plot)
+                    p.scatter(x, data[col].values, legend_label=col, **style_for_this_plot)
                 else:
                     raise ValueError("Unsupported plot type")
 
-        box = plt.subplot(111).get_position()
-        plt.subplot(111).set_position([box.x0, box.y0, box.width * 0.8, box.height])
-
         if text:
-            plt.text(23, box.height, text, fontsize=12, color='black', ha='left',
-                    bbox=dict(facecolor='lightgrey', alpha=0.5, pad=5))
+            p.add_layout(Title(text=text, text_font_size="12pt"), 'above')
 
-        plt.legend(loc='center right', bbox_to_anchor=(0, 0.5), fancybox=True, shadow=True,
-                   ncol=2 if data.shape[1] > 25 else 1)
-        plt.grid(True, color="k")
-        plt.ylabel('y axis')
-        plt.xlabel('x axis')
-        plt.title(name)
+        p.add_tools(HoverTool(tooltips=[("x", "@x"), ("y", "@y")]))
 
-        self.position_figure(position)
+        p.legend.location = "top_left"
+        p.grid.grid_line_alpha = 0.3
+        p.xaxis.axis_label = 'x axis'
+        p.yaxis.axis_label = 'y axis'
 
+        self.position_figure(p)

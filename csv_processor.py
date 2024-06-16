@@ -264,7 +264,7 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
 
             data = pd.merge(training_function_data, ideal_function_data, on='x')
 
-            plotmanager.load_xy_as_line_plot(data, f"Training Function {training_function} with Ideal Function {ideal_functions[training_function]['ideal_function']}")
+            plotmanager.load_xy_as_line_plot(data=data, name=f"Training Function {training_function} with Ideal Function {ideal_functions[training_function]['ideal_function']}")
 
         plotmanager.show_plots()
 
@@ -285,9 +285,9 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
         logger.info("Showing Results")
 
         style = {
-            'y': {'linewidth': 3, 'alpha': 0.5, 'color': 'black'},
-            'y_point_mapped': {'type': 'scatter', 'linewidth': 3, 'alpha': 1, 'color': 'green'},
-            'y_point_not_found': {'type': 'scatter', 'linewidth': 3, 'alpha': 1, 'color': 'red'}
+            'y': {'width': 3, 'alpha': 0.5, 'color': 'black'},
+            'y_point_mapped': {'type': 'scatter', 'width': 3, 'alpha': 1, 'color': 'green'},
+            'y_point_not_found': {'type': 'scatter', 'width': 3, 'alpha': 1, 'color': 'red'}
         }
 
         visualize_data = test_data.drop(columns=['Delta Y', 'No. of ideal func'])
@@ -296,7 +296,7 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
         visualize_data = pd.merge(visualize_data, ideal_data, on='x')
 
         for col in ideal_data.columns:
-            style[col] = {'linewidth': 10, 'alpha': 0.3}
+            style[col] = {'width': 10, 'alpha': 0.3}
 
         text_functions = "Train;Ideal"
         for train_function in ideal_functions:

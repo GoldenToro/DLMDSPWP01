@@ -1,17 +1,24 @@
+import shutil
 import unittest
 from math import sqrt
 import os
+import time
 import csv
 import argparse
+import traceback
+
 import pandas as pd
+from pandas import DataFrame
+
 from fancy_logging import logger
 from sqlite_helper import SqliteOperations
+import interpolateData
 from visualize_functions import PlotManager, FULL_SCREEN
-import traceback
 
 # Constants for repeated values
 DEFAULT_CSV_PATH = 'Dataset2'
 DEFAULT_DB_PATH = 'db.sqlite3'
+
 
 def str2bool(v: str) -> bool:
     """
@@ -30,6 +37,7 @@ def str2bool(v: str) -> bool:
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
+
 def load_csv_data(csv_file: str) -> pd.DataFrame:
     """
     Load CSV data into a pandas DataFrame.
@@ -45,7 +53,8 @@ def load_csv_data(csv_file: str) -> pd.DataFrame:
         logger.debug(traceback.format_exc())
         return None
 
-def load_dataset(db: SqliteOperations, csv_path: str, with_visualizing: bool) -> None:
+
+def load_dataset(db: SqliteOperations, csv_path: str, with_visualizing: bool) -> tuple[float, float]:
     """
     Load dataset into the database and visualize if needed.
 
@@ -59,12 +68,20 @@ def load_dataset(db: SqliteOperations, csv_path: str, with_visualizing: bool) ->
     train_data = load_csv_data(os.path.join(csv_path, "train.csv"))
     ideal_data = load_csv_data(os.path.join(csv_path, "ideal.csv"))
 
+
+    start_time = time.process_time()
+    db.fill_table("train", train_data)
+    end_time = time.process_time()
+    diff_sqlFillTrain_time = end_time - start_time
+
+    start_time = time.process_time()
+    db.fill_table("ideal", ideal_data)
+    end_time = time.process_time()
+    diff_sqlFillIdeal_time = end_time - start_time
+
     if train_data is None or ideal_data is None:
         logger.error("Failed to load training or ideal data.")
         return
-
-    db.fill_table("train", train_data)
-    db.fill_table("ideal", ideal_data)
 
     logger.info("Database created and filled with training and ideal data")
 
@@ -79,6 +96,9 @@ def load_dataset(db: SqliteOperations, csv_path: str, with_visualizing: bool) ->
 
         plotmanager.show_plots()
 
+    return diff_sqlFillIdeal_time, diff_sqlFillTrain_time
+
+
 def get_row(dataframe: pd.DataFrame, column_name: str, value) -> pd.DataFrame:
     """
     Get rows from a DataFrame where a specific column has a specific value.
@@ -89,6 +109,7 @@ def get_row(dataframe: pd.DataFrame, column_name: str, value) -> pd.DataFrame:
     :return: DataFrame containing all rows where the specified column has the specified value.
     """
     return dataframe[dataframe[column_name] == value]
+
 
 def get_max_deviation(col1: pd.Series, col2: pd.Series) -> float:
     """
@@ -102,6 +123,7 @@ def get_max_deviation(col1: pd.Series, col2: pd.Series) -> float:
     max_dev = deviation.max()
     return max_dev
 
+
 def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: dict) -> pd.DataFrame:
     """
     Assign test data to ideal functions and calculate deviations.
@@ -113,7 +135,7 @@ def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: d
     """
     test_data = pd.DataFrame()
 
-    ideal_data = ideal_data[['x', *[training_function['ideal_function'] for training_function in ideal_functions.values()]]].copy() # get every ideal function that was mapped to a training function
+    ideal_data = ideal_data[['x', *[training_function['ideal_function'] for training_function in ideal_functions.values()]]].copy()  # get every ideal function that was mapped to a training function
 
     '''
     would load it like the other csv-files, but it has to be loaded "line-by-line"
@@ -123,45 +145,65 @@ def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: d
         with open(csv_path, mode='r', newline='') as file:
             csv_reader = csv.reader(file)
 
-            next(csv_reader)  # Skip t
+            next(csv_reader)  # Skip the header
+
 
             for index, row in enumerate(csv_reader):
                 row_x = float(row[0])
                 row_y = float(row[1])
 
-                ideal_data_row = get_row(ideal_data, 'x', row_x)
-                if len(ideal_data_row) != 1:
-                    raise ValueError(f"No unique match found for x={row_x} in ideal data.")
+                try:
+                    ideal_data_row = get_row(ideal_data, 'x', row_x)
 
-                deviations = {col: abs(ideal_data_row.iloc[0][col] - row_y) for col in ideal_data_row if col != 'x'}
-
-                min_deviation_function = min(deviations, key=deviations.get)
-                min_deviation_value = deviations[min_deviation_function]
-
-                # check if Deviation is higher than max Deviation factor sqrt 2
-                max_deviation = next((value['max_deviation_factor_sqrt_two'] for key, value in ideal_functions.items() if value['ideal_function'] == min_deviation_function), None)
-                if min_deviation_value > max_deviation:
                     min_deviation_function = None
                     min_deviation_value = None
-                    logger.debug(f"For {row_x} with Value y: {row_y} no Min Deviation found")
-                else:
-                    logger.debug(f"For {row_x} with Value y: {row_y} found Min Deviation with Function: {min_deviation_function}: {min_deviation_value}")
 
-                row_data = {
-                    'x': [row_x],
-                    'y': [row_y],
-                    'Delta Y': min_deviation_value,
-                    'No. of ideal func': min_deviation_function,
-                }
+                    if len(ideal_data_row) == 1:
 
-                if min_deviation_function:
-                    row_data['y_point_mapped'] = row_y
-                    row_data['y_point_not_found'] = None
-                else:
-                    row_data['y_point_mapped'] = None
-                    row_data['y_point_not_found'] = row_y
+                        deviations = {col: abs(ideal_data_row.iloc[0][col] - row_y) for col in ideal_data_row if col != 'x'}
 
-                test_data = pd.concat([test_data, pd.DataFrame(row_data).set_index('x')])
+                        min_deviation_function = min(deviations, key=deviations.get)
+                        min_deviation_value = deviations[min_deviation_function]
+
+                        # check if Deviation is higher than max Deviation factor sqrt 2
+                        max_deviation = next((value['max_deviation_factor_sqrt_two'] for key, value in ideal_functions.items() if value['ideal_function'] == min_deviation_function), None)
+
+                        #logger.info(f"For x,y: {row_x}, {row_y} Min Deviation: {min_deviation_value}({min_deviation_function}) > {max_deviation} = {min_deviation_value > max_deviation}")
+                        if min_deviation_value > max_deviation:
+                            logger.debug(f"For {row_x} with Value y: {row_y} no Min Deviation found")
+                            min_deviation_function = None
+                            min_deviation_value = None
+
+                        else:
+                            logger.debug(f"For {row_x} with Value y: {row_y} found Min Deviation with Function: {min_deviation_function}: {min_deviation_value}")
+
+                    elif len(ideal_data_row) > 1:
+                        #logger.debug(f"For {row_x} with Value y: {row_y} found multiple ideal data rows")
+                        pass
+                    elif len(ideal_data_row) < 1:
+                        #logger.debug(f"For {row_x} with Value y: {row_y} found no ideal data row")
+                        pass
+
+                    row_data = {
+                        'x': [row_x],
+                        'y': [row_y],
+                        'Delta Y': min_deviation_value,
+                        'No. of ideal func': min_deviation_function,
+                    }
+
+                    if min_deviation_function is not None:
+                        row_data['y_point_mapped'] = row_y
+                        row_data['y_point_not_found'] = None
+                    else:
+                        row_data['y_point_mapped'] = None
+                        row_data['y_point_not_found'] = row_y
+
+                    test_data = pd.concat([test_data, pd.DataFrame(row_data).set_index('x')])
+
+                except Exception as e:
+
+                    logger.warning(f"No unique match found for x={row_x} in ideal data.")
+
 
         test_data = test_data.sort_index().reset_index()
 
@@ -170,6 +212,7 @@ def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: d
         logger.debug(traceback.format_exc())
 
     return test_data
+
 
 def find_ideal_function(training_function_name: str, training_function: pd.DataFrame, ideal_data: pd.DataFrame) -> str:
     """
@@ -200,7 +243,8 @@ def find_ideal_function(training_function_name: str, training_function: pd.DataF
 
     return min_function
 
-def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visualizing_steps: bool = False, with_visualizing_result: bool = False) -> None:
+
+def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visualizing_steps: bool = False, with_visualizing_result: bool = False) -> DataFrame:
     """
     Main function to handle the process of loading CSV data, processing it, and visualizing results.
 
@@ -231,15 +275,25 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
     if not db_exists or overwrite:
         if db_exists:
             logger.warning("Database gets overwritten.")
-        load_dataset(db=db, csv_path=csv_path, with_visualizing=with_visualizing_steps)
+
+        diff_sqlFillIdeal_time, diff_sqlFillTrain_time = load_dataset(db=db, csv_path=csv_path, with_visualizing=with_visualizing_steps)
     else:
         logger.warning("Database already exists and should not be overwritten. Skipping data import.")
 
+    start_time = time.process_time()
     training_data = db.get_data_from_table("train")
+    end_time = time.process_time()
+    diff_loadSQLTrain_time = end_time - start_time
+    start_time = time.process_time()
     ideal_data = db.get_data_from_table("ideal")
+    end_time = time.process_time()
+    diff_loadSQLIDEAL_time = end_time - start_time
 
     logger.info("Searching Ideal Functions")
     ideal_functions = {}
+
+
+    start_time = time.process_time()
     for col in training_data:
         if col != 'x':
             min_function = find_ideal_function(col, training_data[['x', col]], ideal_data)
@@ -250,6 +304,8 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
                 'max_deviation': max_deviation,
                 'max_deviation_factor_sqrt_two': max_deviation * sqrt(2)
             }
+    end_time = time.process_time()
+    diff_findIdealFunction_time = end_time - start_time
 
     logger.info(f"Ideal Functions: {ideal_functions}")
 
@@ -268,18 +324,27 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
 
         plotmanager.show_plots()
 
+    start_time = time.process_time()
     test_data = assign_test_data(csv_path=os.path.join(csv_path, 'test.csv'), ideal_data=ideal_data, ideal_functions=ideal_functions)
+    end_time = time.process_time()
+    diff_assignTestData_time = end_time - start_time
 
     points_unassigned = test_data['No. of ideal func'].isna().sum()
     points_assigned = test_data['No. of ideal func'].notna().sum()
     logger.info(f"Results for Test-Data: \nPoints Assigned: {points_assigned}\nPoints Unassigned: {points_unassigned}\n")
 
+
     if not db_exists or overwrite:
         db.drop_table("test")
+        start_time = time.process_time()
         db.fill_table("test", test_data.drop(columns=['y_point_mapped', 'y_point_not_found']))
+        end_time = time.process_time()
+        diff_sqlFillTest_time = end_time - start_time
         logger.info("Database filled with test data")
     else:
         logger.info("Not allowed to overwrite Database, set --overwrite to True for overwriting")
+
+
 
     if with_visualizing_steps or with_visualizing_result:
         logger.info("Showing Results")
@@ -290,10 +355,13 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
             'y_point_not_found': {'type': 'scatter', 'width': 3, 'alpha': 1, 'color': 'red'}
         }
 
+
         visualize_data = test_data.drop(columns=['Delta Y', 'No. of ideal func'])
+
         ideal_columns = [training_function['ideal_function'] for training_function in ideal_functions.values()]
         ideal_data = ideal_data[['x', *ideal_columns]].copy()
-        visualize_data = pd.merge(visualize_data, ideal_data, on='x')
+        visualize_data = pd.merge(visualize_data, ideal_data, on='x', how='outer')
+
 
         for col in ideal_data.columns:
             style[col] = {'width': 10, 'alpha': 0.3}
@@ -302,6 +370,7 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
         for train_function in ideal_functions:
             text_functions += f"\n{train_function};{ideal_functions[train_function]['ideal_function']}"
 
+        start_time = time.process_time()
         plotmanager.load_xy_as_line_plot(
             data=visualize_data,
             name="Test Data mapped to Ideal Functions",
@@ -313,18 +382,67 @@ for each training function, which are:
 \n{text_functions}\n
 and the test function y. The red and
 green points show the x,y values 
-that could or couldn't be mapped. 
+that could or couldn't be mapped. \n
+Data Points = {test_data.shape[0]}
+Points Assigned = {points_assigned}
+Points Unassigned = {points_unassigned}
 '''
         )
 
         plotmanager.show_plots()
+        end_time = time.process_time()
+        diff_visResults_time = end_time - start_time
+
+    return pd.DataFrame([
+        {
+            'function': 'fill SQL Database',
+            'file': "ideal.csv",
+            'time': diff_sqlFillIdeal_time
+        },
+        {
+            'function': 'fill SQL Database',
+            'file': "train.csv",
+            'time': diff_sqlFillTrain_time
+        },
+        {
+            'function': 'GET SQL Data',
+            'file': "ideal.csv",
+            'time': diff_loadSQLIDEAL_time
+        },
+        {
+            'function': 'GET SQL Data',
+            'file': "train.csv",
+            'time': diff_loadSQLTrain_time
+        },
+        {
+            'function': 'Finding all Ideal Functions',
+            'file': None,
+            'time': diff_findIdealFunction_time
+        },
+        {
+            'function': 'Assigning test data',
+            'file': None,
+            'time': diff_assignTestData_time
+        },
+        {
+            'function': 'fill SQL Database',
+            'file': "test.csv",
+            'time': diff_sqlFillTest_time
+        },
+        {
+            'function': 'vis results',
+            'file': None,
+            'time': diff_visResults_time
+        }
+    ])
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load CSV data into SQLite database.')
     parser.add_argument('-csv', '--csv_path', type=str, default=DEFAULT_CSV_PATH, help='Path to the CSV files.')
     parser.add_argument('-db', '--db_path_to_file', type=str, default=DEFAULT_DB_PATH, help='Path to the SQLite database file.')
     parser.add_argument('-o', '--overwrite', action='store_true', help='Overwrite the existing database if it already exists')
-    parser.add_argument('-v', '--visualize_import', action='store_true', help='Visualize every important step')
+    parser.add_argument('-v', '--visualize_important', action='store_true', help='Visualize every important step')
     parser.add_argument('-e', '--visualize_result', action='store_true', help='Visualize only end-results')
     parser.add_argument('-t', '--test', action='store_true', help='Run unit tests before executing main program')
 
@@ -338,4 +456,59 @@ if __name__ == "__main__":
         else:
             logger.info("Unit Tests Successful")
 
-    main(args.csv_path, args.db_path_to_file, args.overwrite, args.visualize_import, args.visualize_result)
+    scaling_factor = 10
+    num_iterations = 4
+    num_tests = 10
+
+    results = pd.DataFrame()
+
+    start_all_time = time.process_time()
+
+    for i in range(1, num_tests+1):
+
+        start_test_time = time.process_time()
+
+        for j in range(0, num_iterations):
+
+            results_test = pd.DataFrame()
+
+            factor_in_loop = scaling_factor ** j
+
+            logger.info(f"Starting with factor {scaling_factor} ** {j} = {factor_in_loop}")
+
+            time_interpolating = interpolateData.main(factor_in_loop)
+            results_test = pd.concat([results_test, time_interpolating], ignore_index=True)
+
+            path_csv_data = "Dataset2_" + str(factor_in_loop)
+
+            time_main = main(path_csv_data, args.db_path_to_file, overwrite=True, with_visualizing_steps=False, with_visualizing_result=True)
+
+            results_test = pd.concat([results_test, time_main], ignore_index=True)
+
+            results_test['lines'] = factor_in_loop * 100
+            results_test['test_no'] = i
+
+            results = pd.concat([results, results_test], ignore_index=True)
+
+        end_time = time.process_time()
+        diff_test_time = end_time - start_test_time
+
+        logger.info(f"Test needed {diff_test_time}s")
+
+        for j in range(0, num_iterations):
+            factor_in_loop = scaling_factor ** j
+
+            path_csv_data = "Dataset2_" + str(factor_in_loop)
+
+            shutil.rmtree(path_csv_data)
+
+
+
+    logger.info("\n"+results.to_string())
+    results.to_csv("results.csv")
+
+    end_time = time.process_time()
+    diff_all_time = end_time - start_all_time
+    logger.info(f"All Tests needed {diff_all_time}s")
+
+

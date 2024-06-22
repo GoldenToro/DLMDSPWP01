@@ -4,7 +4,7 @@ from fancy_logging import logger
 
 from bokeh.plotting import figure, show, output_file, save
 from bokeh.layouts import gridplot
-from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.models import ColumnDataSource, HoverTool, Legend, LegendItem
 from bokeh.models.annotations import Title
 
 import pandas as pd
@@ -35,7 +35,7 @@ class PlotManager:
     :param num_plots_horizontal: Number of plots horizontally.
     """
 
-    def __init__(self, screen_size_x=3440, screen_size_y=1365, num_plots_vertical=2, num_plots_horizontal=4):
+    def __init__(self, screen_size_x=3440, screen_size_y=1365, num_plots_vertical=1, num_plots_horizontal=2):
         self.screen_size_x = screen_size_x
         self.screen_size_y = screen_size_y
         self.num_plots_vertical = num_plots_vertical
@@ -84,6 +84,7 @@ class PlotManager:
 
         x = data['x'].values
         source = ColumnDataSource(data)
+        legend_items = []
 
         for col in data.columns:
             if col != 'x':
@@ -96,18 +97,23 @@ class PlotManager:
                         type_for_this_plot = style_for_this_plot.pop('type')
 
                 if type_for_this_plot == 'line':
-                    p.line(x, data[col].values, legend_label=col, **style_for_this_plot)
+                    renderer = p.line(x, data[col].values, **style_for_this_plot)
                 elif type_for_this_plot == 'scatter':
-                    p.scatter(x, data[col].values, legend_label=col, **style_for_this_plot)
+                    renderer = p.scatter(x, data[col].values, **style_for_this_plot)
                 else:
                     raise ValueError("Unsupported plot type")
+
+                legend_items.append((col, [renderer]))
 
         if text:
             p.add_layout(Title(text=text, text_font_size="12pt"), 'above')
 
-        p.add_tools(HoverTool(tooltips=[("x", "@x"), ("y", "@y")]))
+        p.add_tools(HoverTool(tooltips=[("x", "@x{0.0000000000000000}"), ("y", "@y{0.0000000000000000}")]))
 
-        p.legend.location = "top_left"
+        # Set the legend location outside the plot area
+        legend = Legend(items=legend_items, location=(0, 0))
+        p.add_layout(legend, 'right')
+
         p.grid.grid_line_alpha = 0.3
         p.xaxis.axis_label = 'x axis'
         p.yaxis.axis_label = 'y axis'

@@ -99,8 +99,7 @@ class SqliteOperations:
 
             self.create_xy_table(table_name, data.columns)
 
-            data.set_index('x', inplace=True)
-            data.to_sql(table_name, con=self.engine, if_exists='append', index=True)
+            data.to_sql(table_name, con=self.engine, if_exists='append', index=False)
             self.logger.debug(f"Table '{table_name}' filled successfully.")
 
         except Exception as e:

@@ -13,6 +13,7 @@ import traceback
 DEFAULT_CSV_PATH = 'Dataset2'
 DEFAULT_DB_PATH = 'db.sqlite3'
 
+
 def str2bool(v: str) -> bool:
     """
     Convert a string to a boolean value.
@@ -30,6 +31,7 @@ def str2bool(v: str) -> bool:
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
+
 def load_csv_data(csv_file: str) -> pd.DataFrame:
     """
     Load CSV data into a pandas DataFrame.
@@ -44,6 +46,7 @@ def load_csv_data(csv_file: str) -> pd.DataFrame:
         logger.error(f"Error loading CSV file: {e}")
         logger.debug(traceback.format_exc())
         return None
+
 
 def load_dataset(db: SqliteOperations, csv_path: str, with_visualizing: bool) -> None:
     """
@@ -79,6 +82,7 @@ def load_dataset(db: SqliteOperations, csv_path: str, with_visualizing: bool) ->
 
         plotmanager.show_plots()
 
+
 def get_row(dataframe: pd.DataFrame, column_name: str, value) -> pd.DataFrame:
     """
     Get rows from a DataFrame where a specific column has a specific value.
@@ -89,6 +93,7 @@ def get_row(dataframe: pd.DataFrame, column_name: str, value) -> pd.DataFrame:
     :return: DataFrame containing all rows where the specified column has the specified value.
     """
     return dataframe[dataframe[column_name] == value]
+
 
 def get_max_deviation(col1: pd.Series, col2: pd.Series) -> float:
     """
@@ -102,6 +107,7 @@ def get_max_deviation(col1: pd.Series, col2: pd.Series) -> float:
     max_dev = deviation.max()
     return max_dev
 
+
 def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: dict) -> pd.DataFrame:
     """
     Assign test data to ideal functions and calculate deviations.
@@ -113,7 +119,7 @@ def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: d
     """
     test_data = pd.DataFrame()
 
-    ideal_data = ideal_data[['x', *[training_function['ideal_function'] for training_function in ideal_functions.values()]]].copy() # get every ideal function that was mapped to a training function
+    ideal_data = ideal_data[['x', *[training_function['ideal_function'] for training_function in ideal_functions.values()]]].copy()  # get every ideal function that was mapped to a training function
 
     '''
     would load it like the other csv-files, but it has to be loaded "line-by-line"
@@ -171,6 +177,7 @@ def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: d
 
     return test_data
 
+
 def find_ideal_function(training_function_name: str, training_function: pd.DataFrame, ideal_data: pd.DataFrame) -> str:
     """
     Find the ideal function for the given training function based on minimum squared deviation.
@@ -199,6 +206,7 @@ def find_ideal_function(training_function_name: str, training_function: pd.DataF
     min_function = min(squared_deviation_sums, key=squared_deviation_sums.get)
 
     return min_function
+
 
 def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visualizing_steps: bool = False, with_visualizing_result: bool = False) -> None:
     """
@@ -293,10 +301,23 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
         visualize_data = test_data.drop(columns=['Delta Y', 'No. of ideal func'])
         ideal_columns = [training_function['ideal_function'] for training_function in ideal_functions.values()]
         ideal_data = ideal_data[['x', *ideal_columns]].copy()
-        visualize_data = pd.merge(visualize_data, ideal_data, on='x')
 
+        colors = ['orange', 'blue', 'yellow', 'purple']
+        for index, (key, value) in enumerate(ideal_functions.items()):
+            style[value['ideal_function']] = {'width': 3, 'alpha': 0.8, 'color': colors[int(index)]}
+            style[value['ideal_function'] + '_max'] = {'width': 3, 'alpha': 0.3, 'color': colors[index]}
+            style[value['ideal_function'] + '_min'] = {'width': 3, 'alpha': 0.3, 'color': colors[index]}
+
+        # help to visualize borders of deviations
         for col in ideal_data.columns:
-            style[col] = {'width': 10, 'alpha': 0.3}
+            if col != 'x':
+                print(ideal_functions)
+                print(col)
+                max_deviation = next((value['max_deviation_factor_sqrt_two'] for key, value in ideal_functions.items() if value['ideal_function'] == col), None)
+                ideal_data[col + '_max'] = ideal_data[col] + max_deviation
+                ideal_data[col + '_min'] = ideal_data[col] - max_deviation
+
+        visualize_data = pd.merge(visualize_data, ideal_data, on='x')
 
         text_functions = "Train;Ideal"
         for train_function in ideal_functions:
@@ -318,6 +339,7 @@ that could or couldn't be mapped.
         )
 
         plotmanager.show_plots()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load CSV data into SQLite database.')

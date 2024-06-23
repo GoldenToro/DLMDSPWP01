@@ -4,6 +4,24 @@
 
 This project processes CSV data files, stores the data in an SQLite database, and provides functionality to visualize the data. The project is implemented in Python and follows object-oriented design principles, making use of libraries such as `pandas`, `matplotlib`, `sqlalchemy`, and custom logging and visualization modules.
 
+## Additional Task and Bokeh 
+
+The visualization on main works with matplotlib, to use the bokeh library checkout or merge the 'bokeh' branch.
+These are the commands for mergin the branch 'bokeh' into 'develop':
+    
+    git clone https://github.com/GoldenToro/DLMDSPWP01.git
+    cd DLMDSPWP01
+    git fetch --all
+    git checkout bokeh
+    git checkout develop
+    git merge bokeh
+    # Resolve conflicts if any, then:
+    git add <resolved_file>
+    git commit
+    # Finally, push changes if you have write access:
+    git push origin develop 
+
+
 ## Features
 
 - Load CSV data into an SQLite database.

@@ -311,8 +311,6 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
         # help to visualize borders of deviations
         for col in ideal_data.columns:
             if col != 'x':
-                print(ideal_functions)
-                print(col)
                 max_deviation = next((value['max_deviation_factor_sqrt_two'] for key, value in ideal_functions.items() if value['ideal_function'] == col), None)
                 ideal_data[col + '_max'] = ideal_data[col] + max_deviation
                 ideal_data[col + '_min'] = ideal_data[col] - max_deviation

@@ -4,6 +4,8 @@ from fancy_logging import logger
 import pandas as pd
 import numpy as np
 import time
+import math
+
 
 def ensure_dir_exists(directory):
     """
@@ -13,6 +15,7 @@ def ensure_dir_exists(directory):
     """
     if not os.path.exists(directory):
         os.makedirs(directory)
+
 
 def interpolate_data(df, factor=10):
     """
@@ -27,18 +30,15 @@ def interpolate_data(df, factor=10):
     new_df = pd.DataFrame(index=new_index)
 
     for column in df.columns:
-        new_df[column] = np.round(np.interp(new_index, df.index, df[column]),6)
+        new_df[column] = np.round(np.interp(new_index, df.index, df[column]),8)
 
-    new_df.reset_index(drop=True, inplace=True)
     return new_df
 
 
 def main(factor):
-
     measured_data = []
 
     for data_path in ['Dataset2/train.csv', 'Dataset2/test.csv', 'Dataset2/ideal.csv']:
-
 
         start_time = time.process_time()
         data = pd.read_csv(data_path, index_col='x')
@@ -48,13 +48,11 @@ def main(factor):
         data = data.sort_index().reset_index()
 
         if data_path == "Dataset2/test.csv":
-
             # Generate the new x values3
-            new_x = np.round(np.arange(-20.0, 20.0, 0.1),1)
+            new_x = np.round(np.arange(-20.0, 20.0, 0.1), 1)
             test_data = pd.DataFrame({'x': new_x})
 
-            test_data['y'] = np.interp(test_data['x'], data.index, data['y'])
-
+            test_data['y'] = np.interp(x=test_data['x'], xp=data['x'], fp=data['y'])
 
             data = test_data
 
@@ -97,3 +95,7 @@ def main(factor):
         })
 
     return pd.DataFrame(measured_data)
+
+
+if __name__ == "__main__":
+    main(10)

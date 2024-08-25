@@ -9,21 +9,22 @@ from bokeh.models.annotations import Title
 
 import pandas as pd
 
-def random_color():
-    """
-    Generate a random color hex code.
-
-    :return: A random color in hex format.
-    """
-    r = lambda: random.randint(0, 255)
-    return f'#{r():02X}{r():02X}{r():02X}'
-
 FULL_SCREEN = {
     'left': 0,
     'top': 0,
     'width': 1,
     'height': 1
 }
+
+colors = [
+    "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF8C33", "#8C33FF", "#33FFBD",
+    "#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FF8C33", "#8C33FF", "#33FFBD",
+    "#5733FF", "#57FF33", "#FF5733", "#33FF57", "#5733FF", "#FF33A1", "#33FFBD",
+    "#FF5733", "#8CFF33", "#3357FF", "#33FFBD", "#FF5733", "#33FF57", "#3357FF",
+    "#FF33A1", "#FF8C33", "#8C33FF", "#33FFBD", "#FF5733", "#33FF57", "#5733FF",
+    "#FF33A1", "#33FFBD", "#FF5733", "#8CFF33", "#3357FF", "#33FFBD", "#FF5733",
+    "#33FF57", "#3357FF", "#FF33A1", "#FF8C33", "#8C33FF", "#33FFBD", "#FF5733"
+]
 
 class PlotManager:
     """
@@ -86,9 +87,10 @@ class PlotManager:
         source = ColumnDataSource(data)
         legend_items = []
 
-        for col in data.columns:
+
+        for i, col in enumerate(data.columns):
             if col != 'x':
-                style_for_this_plot = {'color': random_color()}
+                style_for_this_plot = {'color': colors[i]}
                 type_for_this_plot = "line"
 
                 if styles and col in styles:

@@ -474,6 +474,8 @@ if __name__ == "__main__":
 
             factor_in_loop = scaling_factor ** j
 
+            logger.warning(f"Start Test {j} in Round {i} with {factor_in_loop * 100} lines")
+
             logger.info(f"Starting with factor {scaling_factor} ** {j} = {factor_in_loop}")
 
             time_interpolating = interpolateData.main(factor_in_loop)
@@ -490,10 +492,15 @@ if __name__ == "__main__":
 
             results = pd.concat([results, results_test], ignore_index=True)
 
-        end_time = time.process_time()
-        diff_test_time = end_time - start_test_time
+            end_time = time.process_time()
+            diff_test_time = end_time - start_test_time
 
-        logger.info(f"Test needed {diff_test_time}s")
+            logger.warning(f"Test {j} ({factor_in_loop * 100} lines) needed {diff_test_time}s")
+
+        end_time = time.process_time()
+        diff_tests_time = end_time - start_test_time
+
+        logger.info(f"Testcase {i} needed {diff_tests_time}s")
 
         for j in range(0, num_iterations):
             factor_in_loop = scaling_factor ** j

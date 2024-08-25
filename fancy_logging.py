@@ -1,6 +1,6 @@
 import logging
 
-LOGGING_LEVEL = logging.INFO
+LOGGING_LEVEL = logging.WARNING
 
 
 class LoggingLevelError(Exception):

@@ -1,90 +1,90 @@
 ,function,file,time,lines,test_no
-0,load CSV File,train.csv,0.015625,100,1
+0,load CSV File,train.csv,0.0,100,1
 1,interpolate Data,train.csv,0.0,100,1
-2,save CSV File,train.csv,0.0,100,1
+2,save CSV File,train.csv,0.015625,100,1
 3,load CSV File,test.csv,0.0,100,1
 4,interpolate Data,test.csv,0.0,100,1
 5,save CSV File,test.csv,0.0,100,1
 6,load CSV File,ideal.csv,0.0,100,1
 7,interpolate Data,ideal.csv,0.015625,100,1
-8,save CSV File,ideal.csv,0.015625,100,1
+8,save CSV File,ideal.csv,0.0,100,1
 9,fill SQL Database,ideal.csv,0.171875,100,1
-10,fill SQL Database,train.csv,0.0,100,1
+10,fill SQL Database,train.csv,0.015625,100,1
 11,GET SQL Data,ideal.csv,0.0,100,1
 12,GET SQL Data,train.csv,0.0,100,1
 13,Finding all Ideal Functions,,0.03125,100,1
 14,Assigning test data,,0.390625,100,1
-15,fill SQL Database,test.csv,0.015625,100,1
+15,fill SQL Database,test.csv,0.0,100,1
 16,vis results,,0.25,100,1
-17,load CSV File,train.csv,0.015625,1000,1
+17,load CSV File,train.csv,0.0,1000,1
 18,interpolate Data,train.csv,0.0,1000,1
-19,save CSV File,train.csv,0.015625,1000,1
+19,save CSV File,train.csv,0.03125,1000,1
 20,load CSV File,test.csv,0.0,1000,1
 21,interpolate Data,test.csv,0.0,1000,1
-22,save CSV File,test.csv,0.015625,1000,1
-23,load CSV File,ideal.csv,0.0,1000,1
-24,interpolate Data,ideal.csv,0.015625,1000,1
+22,save CSV File,test.csv,0.0,1000,1
+23,load CSV File,ideal.csv,0.015625,1000,1
+24,interpolate Data,ideal.csv,0.0,1000,1
 25,save CSV File,ideal.csv,0.171875,1000,1
-26,fill SQL Database,ideal.csv,0.21875,1000,1
-27,fill SQL Database,train.csv,0.09375,1000,1
-28,GET SQL Data,ideal.csv,0.0625,1000,1
+26,fill SQL Database,ideal.csv,0.171875,1000,1
+27,fill SQL Database,train.csv,0.03125,1000,1
+28,GET SQL Data,ideal.csv,0.046875,1000,1
 29,GET SQL Data,train.csv,0.015625,1000,1
 30,Finding all Ideal Functions,,0.046875,1000,1
-31,Assigning test data,,3.96875,1000,1
+31,Assigning test data,,1.65625,1000,1
 32,fill SQL Database,test.csv,0.03125,1000,1
-33,vis results,,0.15625,1000,1
+33,vis results,,0.171875,1000,1
 34,load CSV File,train.csv,0.0,10000,1
 35,interpolate Data,train.csv,0.0,10000,1
-36,save CSV File,train.csv,0.1875,10000,1
+36,save CSV File,train.csv,0.203125,10000,1
 37,load CSV File,test.csv,0.0,10000,1
 38,interpolate Data,test.csv,0.0,10000,1
 39,save CSV File,test.csv,0.09375,10000,1
-40,load CSV File,ideal.csv,0.015625,10000,1
-41,interpolate Data,ideal.csv,0.015625,10000,1
-42,save CSV File,ideal.csv,1.546875,10000,1
-43,fill SQL Database,ideal.csv,1.40625,10000,1
-44,fill SQL Database,train.csv,0.21875,10000,1
-45,GET SQL Data,ideal.csv,0.484375,10000,1
-46,GET SQL Data,train.csv,0.09375,10000,1
-47,Finding all Ideal Functions,,0.078125,10000,1
-48,Assigning test data,,43.140625,10000,1
+40,load CSV File,ideal.csv,0.0,10000,1
+41,interpolate Data,ideal.csv,0.03125,10000,1
+42,save CSV File,ideal.csv,1.71875,10000,1
+43,fill SQL Database,ideal.csv,1.59375,10000,1
+44,fill SQL Database,train.csv,0.265625,10000,1
+45,GET SQL Data,ideal.csv,0.6875,10000,1
+46,GET SQL Data,train.csv,0.171875,10000,1
+47,Finding all Ideal Functions,,0.125,10000,1
+48,Assigning test data,,14.703125,10000,1
 49,fill SQL Database,test.csv,0.234375,10000,1
-50,vis results,,0.515625,10000,1
+50,vis results,,0.546875,10000,1
 51,load CSV File,train.csv,0.0,100000,1
 52,interpolate Data,train.csv,0.015625,100000,1
-53,save CSV File,train.csv,1.84375,100000,1
+53,save CSV File,train.csv,1.796875,100000,1
 54,load CSV File,test.csv,0.0,100000,1
 55,interpolate Data,test.csv,0.015625,100000,1
 56,save CSV File,test.csv,0.859375,100000,1
 57,load CSV File,ideal.csv,0.0,100000,1
 58,interpolate Data,ideal.csv,0.171875,100000,1
-59,save CSV File,ideal.csv,14.625,100000,1
-60,fill SQL Database,ideal.csv,13.828125,100000,1
-61,fill SQL Database,train.csv,1.8125,100000,1
-62,GET SQL Data,ideal.csv,4.953125,100000,1
-63,GET SQL Data,train.csv,0.859375,100000,1
-64,Finding all Ideal Functions,,0.625,100000,1
-65,Assigning test data,,1551.234375,100000,1
-66,fill SQL Database,test.csv,2.09375,100000,1
-67,vis results,,4.203125,100000,1
+59,save CSV File,ideal.csv,15.15625,100000,1
+60,fill SQL Database,ideal.csv,14.03125,100000,1
+61,fill SQL Database,train.csv,1.9375,100000,1
+62,GET SQL Data,ideal.csv,5.03125,100000,1
+63,GET SQL Data,train.csv,0.828125,100000,1
+64,Finding all Ideal Functions,,0.53125,100000,1
+65,Assigning test data,,170.8125,100000,1
+66,fill SQL Database,test.csv,2.21875,100000,1
+67,vis results,,4.328125,100000,1
 68,load CSV File,train.csv,0.0,100,2
 69,interpolate Data,train.csv,0.0,100,2
-70,save CSV File,train.csv,0.015625,100,2
+70,save CSV File,train.csv,0.0,100,2
 71,load CSV File,test.csv,0.0,100,2
 72,interpolate Data,test.csv,0.0,100,2
 73,save CSV File,test.csv,0.0,100,2
 74,load CSV File,ideal.csv,0.0,100,2
-75,interpolate Data,ideal.csv,0.015625,100,2
+75,interpolate Data,ideal.csv,0.0,100,2
 76,save CSV File,ideal.csv,0.015625,100,2
-77,fill SQL Database,ideal.csv,0.171875,100,2
-78,fill SQL Database,train.csv,0.015625,100,2
-79,GET SQL Data,ideal.csv,0.0,100,2
+77,fill SQL Database,ideal.csv,0.1875,100,2
+78,fill SQL Database,train.csv,0.046875,100,2
+79,GET SQL Data,ideal.csv,0.015625,100,2
 80,GET SQL Data,train.csv,0.0,100,2
 81,Finding all Ideal Functions,,0.03125,100,2
-82,Assigning test data,,0.40625,100,2
-83,fill SQL Database,test.csv,0.0,100,2
-84,vis results,,0.109375,100,2
-85,load CSV File,train.csv,0.015625,1000,2
+82,Assigning test data,,0.15625,100,2
+83,fill SQL Database,test.csv,0.015625,100,2
+84,vis results,,0.140625,100,2
+85,load CSV File,train.csv,0.0,1000,2
 86,interpolate Data,train.csv,0.0,1000,2
 87,save CSV File,train.csv,0.015625,1000,2
 88,load CSV File,test.csv,0.0,1000,2
@@ -93,49 +93,49 @@
 91,load CSV File,ideal.csv,0.0,1000,2
 92,interpolate Data,ideal.csv,0.015625,1000,2
 93,save CSV File,ideal.csv,0.171875,1000,2
-94,fill SQL Database,ideal.csv,0.1875,1000,2
+94,fill SQL Database,ideal.csv,0.15625,1000,2
 95,fill SQL Database,train.csv,0.015625,1000,2
 96,GET SQL Data,ideal.csv,0.046875,1000,2
 97,GET SQL Data,train.csv,0.015625,1000,2
 98,Finding all Ideal Functions,,0.03125,1000,2
-99,Assigning test data,,3.828125,1000,2
+99,Assigning test data,,1.375,1000,2
 100,fill SQL Database,test.csv,0.015625,1000,2
-101,vis results,,0.140625,1000,2
+101,vis results,,0.15625,1000,2
 102,load CSV File,train.csv,0.0,10000,2
-103,interpolate Data,train.csv,0.0,10000,2
+103,interpolate Data,train.csv,0.015625,10000,2
 104,save CSV File,train.csv,0.1875,10000,2
 105,load CSV File,test.csv,0.0,10000,2
 106,interpolate Data,test.csv,0.0,10000,2
 107,save CSV File,test.csv,0.09375,10000,2
-108,load CSV File,ideal.csv,0.0,10000,2
-109,interpolate Data,ideal.csv,0.03125,10000,2
-110,save CSV File,ideal.csv,1.484375,10000,2
-111,fill SQL Database,ideal.csv,1.390625,10000,2
-112,fill SQL Database,train.csv,0.21875,10000,2
-113,GET SQL Data,ideal.csv,0.5,10000,2
-114,GET SQL Data,train.csv,0.046875,10000,2
+108,load CSV File,ideal.csv,0.015625,10000,2
+109,interpolate Data,ideal.csv,0.015625,10000,2
+110,save CSV File,ideal.csv,1.546875,10000,2
+111,fill SQL Database,ideal.csv,1.3125,10000,2
+112,fill SQL Database,train.csv,0.1875,10000,2
+113,GET SQL Data,ideal.csv,0.484375,10000,2
+114,GET SQL Data,train.csv,0.109375,10000,2
 115,Finding all Ideal Functions,,0.0625,10000,2
-116,Assigning test data,,42.234375,10000,2
-117,fill SQL Database,test.csv,0.25,10000,2
+116,Assigning test data,,14.09375,10000,2
+117,fill SQL Database,test.csv,0.171875,10000,2
 118,vis results,,0.53125,10000,2
 119,load CSV File,train.csv,0.0,100000,2
 120,interpolate Data,train.csv,0.015625,100000,2
-121,save CSV File,train.csv,1.75,100000,2
+121,save CSV File,train.csv,1.765625,100000,2
 122,load CSV File,test.csv,0.0,100000,2
 123,interpolate Data,test.csv,0.015625,100000,2
 124,save CSV File,test.csv,0.859375,100000,2
-125,load CSV File,ideal.csv,0.0,100000,2
-126,interpolate Data,ideal.csv,0.171875,100000,2
-127,save CSV File,ideal.csv,14.59375,100000,2
-128,fill SQL Database,ideal.csv,13.96875,100000,2
-129,fill SQL Database,train.csv,1.8125,100000,2
-130,GET SQL Data,ideal.csv,4.9375,100000,2
+125,load CSV File,ideal.csv,0.015625,100000,2
+126,interpolate Data,ideal.csv,0.15625,100000,2
+127,save CSV File,ideal.csv,15.015625,100000,2
+128,fill SQL Database,ideal.csv,14.203125,100000,2
+129,fill SQL Database,train.csv,1.90625,100000,2
+130,GET SQL Data,ideal.csv,5.125,100000,2
 131,GET SQL Data,train.csv,0.828125,100000,2
-132,Finding all Ideal Functions,,0.609375,100000,2
-133,Assigning test data,,1522.21875,100000,2
-134,fill SQL Database,test.csv,2.140625,100000,2
-135,vis results,,4.15625,100000,2
-136,load CSV File,train.csv,0.015625,100,3
+132,Finding all Ideal Functions,,0.53125,100000,2
+133,Assigning test data,,171.359375,100000,2
+134,fill SQL Database,test.csv,2.203125,100000,2
+135,vis results,,4.265625,100000,2
+136,load CSV File,train.csv,0.0,100,3
 137,interpolate Data,train.csv,0.0,100,3
 138,save CSV File,train.csv,0.0,100,3
 139,load CSV File,test.csv,0.0,100,3
@@ -144,84 +144,84 @@
 142,load CSV File,ideal.csv,0.0,100,3
 143,interpolate Data,ideal.csv,0.015625,100,3
 144,save CSV File,ideal.csv,0.015625,100,3
-145,fill SQL Database,ideal.csv,0.1875,100,3
-146,fill SQL Database,train.csv,0.03125,100,3
-147,GET SQL Data,ideal.csv,0.015625,100,3
-148,GET SQL Data,train.csv,0.0,100,3
+145,fill SQL Database,ideal.csv,0.203125,100,3
+146,fill SQL Database,train.csv,0.015625,100,3
+147,GET SQL Data,ideal.csv,0.0,100,3
+148,GET SQL Data,train.csv,0.015625,100,3
 149,Finding all Ideal Functions,,0.03125,100,3
-150,Assigning test data,,0.40625,100,3
+150,Assigning test data,,0.15625,100,3
 151,fill SQL Database,test.csv,0.0,100,3
-152,vis results,,0.109375,100,3
+152,vis results,,0.140625,100,3
 153,load CSV File,train.csv,0.0,1000,3
 154,interpolate Data,train.csv,0.0,1000,3
 155,save CSV File,train.csv,0.015625,1000,3
 156,load CSV File,test.csv,0.0,1000,3
 157,interpolate Data,test.csv,0.0,1000,3
 158,save CSV File,test.csv,0.015625,1000,3
-159,load CSV File,ideal.csv,0.0,1000,3
-160,interpolate Data,ideal.csv,0.015625,1000,3
+159,load CSV File,ideal.csv,0.015625,1000,3
+160,interpolate Data,ideal.csv,0.0,1000,3
 161,save CSV File,ideal.csv,0.171875,1000,3
-162,fill SQL Database,ideal.csv,0.15625,1000,3
+162,fill SQL Database,ideal.csv,0.171875,1000,3
 163,fill SQL Database,train.csv,0.03125,1000,3
 164,GET SQL Data,ideal.csv,0.046875,1000,3
-165,GET SQL Data,train.csv,0.0,1000,3
+165,GET SQL Data,train.csv,0.015625,1000,3
 166,Finding all Ideal Functions,,0.03125,1000,3
-167,Assigning test data,,3.84375,1000,3
-168,fill SQL Database,test.csv,0.03125,1000,3
-169,vis results,,0.140625,1000,3
-170,load CSV File,train.csv,0.0,10000,3
+167,Assigning test data,,1.375,1000,3
+168,fill SQL Database,test.csv,0.015625,1000,3
+169,vis results,,0.15625,1000,3
+170,load CSV File,train.csv,0.015625,10000,3
 171,interpolate Data,train.csv,0.0,10000,3
 172,save CSV File,train.csv,0.1875,10000,3
 173,load CSV File,test.csv,0.0,10000,3
 174,interpolate Data,test.csv,0.0,10000,3
-175,save CSV File,test.csv,0.09375,10000,3
+175,save CSV File,test.csv,0.109375,10000,3
 176,load CSV File,ideal.csv,0.0,10000,3
-177,interpolate Data,ideal.csv,0.015625,10000,3
-178,save CSV File,ideal.csv,1.515625,10000,3
-179,fill SQL Database,ideal.csv,1.3125,10000,3
-180,fill SQL Database,train.csv,0.15625,10000,3
-181,GET SQL Data,ideal.csv,0.5,10000,3
-182,GET SQL Data,train.csv,0.0625,10000,3
-183,Finding all Ideal Functions,,0.078125,10000,3
-184,Assigning test data,,42.4375,10000,3
-185,fill SQL Database,test.csv,0.21875,10000,3
+177,interpolate Data,ideal.csv,0.03125,10000,3
+178,save CSV File,ideal.csv,1.53125,10000,3
+179,fill SQL Database,ideal.csv,1.390625,10000,3
+180,fill SQL Database,train.csv,0.171875,10000,3
+181,GET SQL Data,ideal.csv,0.46875,10000,3
+182,GET SQL Data,train.csv,0.125,10000,3
+183,Finding all Ideal Functions,,0.0625,10000,3
+184,Assigning test data,,14.078125,10000,3
+185,fill SQL Database,test.csv,0.1875,10000,3
 186,vis results,,0.515625,10000,3
-187,load CSV File,train.csv,0.0,100000,3
+187,load CSV File,train.csv,0.015625,100000,3
 188,interpolate Data,train.csv,0.015625,100000,3
 189,save CSV File,train.csv,1.75,100000,3
 190,load CSV File,test.csv,0.0,100000,3
-191,interpolate Data,test.csv,0.015625,100000,3
-192,save CSV File,test.csv,0.859375,100000,3
+191,interpolate Data,test.csv,0.0,100000,3
+192,save CSV File,test.csv,0.875,100000,3
 193,load CSV File,ideal.csv,0.0,100000,3
 194,interpolate Data,ideal.csv,0.15625,100000,3
-195,save CSV File,ideal.csv,14.640625,100000,3
-196,fill SQL Database,ideal.csv,13.703125,100000,3
-197,fill SQL Database,train.csv,1.875,100000,3
-198,GET SQL Data,ideal.csv,4.953125,100000,3
-199,GET SQL Data,train.csv,0.859375,100000,3
-200,Finding all Ideal Functions,,0.625,100000,3
-201,Assigning test data,,1516.4375,100000,3
-202,fill SQL Database,test.csv,2.140625,100000,3
-203,vis results,,4.125,100000,3
+195,save CSV File,ideal.csv,15.078125,100000,3
+196,fill SQL Database,ideal.csv,14.296875,100000,3
+197,fill SQL Database,train.csv,1.9375,100000,3
+198,GET SQL Data,ideal.csv,5.015625,100000,3
+199,GET SQL Data,train.csv,0.828125,100000,3
+200,Finding all Ideal Functions,,0.53125,100000,3
+201,Assigning test data,,171.671875,100000,3
+202,fill SQL Database,test.csv,2.1875,100000,3
+203,vis results,,4.25,100000,3
 204,load CSV File,train.csv,0.0,100,4
 205,interpolate Data,train.csv,0.0,100,4
 206,save CSV File,train.csv,0.0,100,4
 207,load CSV File,test.csv,0.0,100,4
 208,interpolate Data,test.csv,0.0,100,4
 209,save CSV File,test.csv,0.0,100,4
-210,load CSV File,ideal.csv,0.0,100,4
+210,load CSV File,ideal.csv,0.015625,100,4
 211,interpolate Data,ideal.csv,0.0,100,4
 212,save CSV File,ideal.csv,0.015625,100,4
-213,fill SQL Database,ideal.csv,0.203125,100,4
-214,fill SQL Database,train.csv,0.015625,100,4
+213,fill SQL Database,ideal.csv,0.21875,100,4
+214,fill SQL Database,train.csv,0.03125,100,4
 215,GET SQL Data,ideal.csv,0.015625,100,4
 216,GET SQL Data,train.csv,0.0,100,4
 217,Finding all Ideal Functions,,0.03125,100,4
-218,Assigning test data,,0.40625,100,4
+218,Assigning test data,,0.140625,100,4
 219,fill SQL Database,test.csv,0.0,100,4
 220,vis results,,0.125,100,4
 221,load CSV File,train.csv,0.0,1000,4
-222,interpolate Data,train.csv,0.0,1000,4
+222,interpolate Data,train.csv,0.015625,1000,4
 223,save CSV File,train.csv,0.015625,1000,4
 224,load CSV File,test.csv,0.0,1000,4
 225,interpolate Data,test.csv,0.0,1000,4
@@ -229,134 +229,134 @@
 227,load CSV File,ideal.csv,0.0,1000,4
 228,interpolate Data,ideal.csv,0.015625,1000,4
 229,save CSV File,ideal.csv,0.171875,1000,4
-230,fill SQL Database,ideal.csv,0.140625,1000,4
-231,fill SQL Database,train.csv,0.015625,1000,4
+230,fill SQL Database,ideal.csv,0.15625,1000,4
+231,fill SQL Database,train.csv,0.046875,1000,4
 232,GET SQL Data,ideal.csv,0.046875,1000,4
 233,GET SQL Data,train.csv,0.0,1000,4
 234,Finding all Ideal Functions,,0.03125,1000,4
-235,Assigning test data,,3.84375,1000,4
+235,Assigning test data,,1.375,1000,4
 236,fill SQL Database,test.csv,0.015625,1000,4
-237,vis results,,0.15625,1000,4
+237,vis results,,0.140625,1000,4
 238,load CSV File,train.csv,0.0,10000,4
 239,interpolate Data,train.csv,0.0,10000,4
-240,save CSV File,train.csv,0.1875,10000,4
+240,save CSV File,train.csv,0.203125,10000,4
 241,load CSV File,test.csv,0.0,10000,4
 242,interpolate Data,test.csv,0.0,10000,4
 243,save CSV File,test.csv,0.09375,10000,4
 244,load CSV File,ideal.csv,0.0,10000,4
 245,interpolate Data,ideal.csv,0.03125,10000,4
-246,save CSV File,ideal.csv,1.5,10000,4
-247,fill SQL Database,ideal.csv,1.3125,10000,4
+246,save CSV File,ideal.csv,1.53125,10000,4
+247,fill SQL Database,ideal.csv,1.359375,10000,4
 248,fill SQL Database,train.csv,0.15625,10000,4
-249,GET SQL Data,ideal.csv,0.5,10000,4
-250,GET SQL Data,train.csv,0.0625,10000,4
+249,GET SQL Data,ideal.csv,0.46875,10000,4
+250,GET SQL Data,train.csv,0.109375,10000,4
 251,Finding all Ideal Functions,,0.0625,10000,4
-252,Assigning test data,,42.359375,10000,4
-253,fill SQL Database,test.csv,0.21875,10000,4
+252,Assigning test data,,14.046875,10000,4
+253,fill SQL Database,test.csv,0.1875,10000,4
 254,vis results,,0.53125,10000,4
 255,load CSV File,train.csv,0.0,100000,4
 256,interpolate Data,train.csv,0.015625,100000,4
-257,save CSV File,train.csv,1.765625,100000,4
-258,load CSV File,test.csv,0.015625,100000,4
-259,interpolate Data,test.csv,0.0,100000,4
+257,save CSV File,train.csv,1.78125,100000,4
+258,load CSV File,test.csv,0.0,100000,4
+259,interpolate Data,test.csv,0.015625,100000,4
 260,save CSV File,test.csv,0.859375,100000,4
 261,load CSV File,ideal.csv,0.015625,100000,4
 262,interpolate Data,ideal.csv,0.15625,100000,4
-263,save CSV File,ideal.csv,14.625,100000,4
-264,fill SQL Database,ideal.csv,13.828125,100000,4
-265,fill SQL Database,train.csv,1.78125,100000,4
-266,GET SQL Data,ideal.csv,4.9375,100000,4
-267,GET SQL Data,train.csv,0.859375,100000,4
-268,Finding all Ideal Functions,,0.625,100000,4
-269,Assigning test data,,1497.140625,100000,4
-270,fill SQL Database,test.csv,2.140625,100000,4
-271,vis results,,4.1875,100000,4
+263,save CSV File,ideal.csv,15.015625,100000,4
+264,fill SQL Database,ideal.csv,14.09375,100000,4
+265,fill SQL Database,train.csv,1.921875,100000,4
+266,GET SQL Data,ideal.csv,5.078125,100000,4
+267,GET SQL Data,train.csv,0.8125,100000,4
+268,Finding all Ideal Functions,,0.515625,100000,4
+269,Assigning test data,,172.1875,100000,4
+270,fill SQL Database,test.csv,2.203125,100000,4
+271,vis results,,4.3125,100000,4
 272,load CSV File,train.csv,0.0,100,5
 273,interpolate Data,train.csv,0.0,100,5
-274,save CSV File,train.csv,0.015625,100,5
+274,save CSV File,train.csv,0.0,100,5
 275,load CSV File,test.csv,0.0,100,5
 276,interpolate Data,test.csv,0.0,100,5
 277,save CSV File,test.csv,0.0,100,5
 278,load CSV File,ideal.csv,0.0,100,5
 279,interpolate Data,ideal.csv,0.015625,100,5
 280,save CSV File,ideal.csv,0.015625,100,5
-281,fill SQL Database,ideal.csv,0.1875,100,5
-282,fill SQL Database,train.csv,0.03125,100,5
-283,GET SQL Data,ideal.csv,0.015625,100,5
+281,fill SQL Database,ideal.csv,0.203125,100,5
+282,fill SQL Database,train.csv,0.015625,100,5
+283,GET SQL Data,ideal.csv,0.0,100,5
 284,GET SQL Data,train.csv,0.0,100,5
 285,Finding all Ideal Functions,,0.03125,100,5
-286,Assigning test data,,0.421875,100,5
+286,Assigning test data,,0.15625,100,5
 287,fill SQL Database,test.csv,0.015625,100,5
-288,vis results,,0.171875,100,5
-289,load CSV File,train.csv,0.015625,1000,5
-290,interpolate Data,train.csv,0.0,1000,5
-291,save CSV File,train.csv,0.03125,1000,5
+288,vis results,,0.109375,100,5
+289,load CSV File,train.csv,0.0,1000,5
+290,interpolate Data,train.csv,0.015625,1000,5
+291,save CSV File,train.csv,0.015625,1000,5
 292,load CSV File,test.csv,0.0,1000,5
 293,interpolate Data,test.csv,0.0,1000,5
 294,save CSV File,test.csv,0.015625,1000,5
 295,load CSV File,ideal.csv,0.0,1000,5
-296,interpolate Data,ideal.csv,0.03125,1000,5
-297,save CSV File,ideal.csv,0.25,1000,5
-298,fill SQL Database,ideal.csv,0.171875,1000,5
-299,fill SQL Database,train.csv,0.015625,1000,5
-300,GET SQL Data,ideal.csv,0.03125,1000,5
-301,GET SQL Data,train.csv,0.015625,1000,5
-302,Finding all Ideal Functions,,0.046875,1000,5
-303,Assigning test data,,3.859375,1000,5
+296,interpolate Data,ideal.csv,0.015625,1000,5
+297,save CSV File,ideal.csv,0.203125,1000,5
+298,fill SQL Database,ideal.csv,0.140625,1000,5
+299,fill SQL Database,train.csv,0.03125,1000,5
+300,GET SQL Data,ideal.csv,0.046875,1000,5
+301,GET SQL Data,train.csv,0.0,1000,5
+302,Finding all Ideal Functions,,0.03125,1000,5
+303,Assigning test data,,1.375,1000,5
 304,fill SQL Database,test.csv,0.015625,1000,5
 305,vis results,,0.15625,1000,5
-306,load CSV File,train.csv,0.0,10000,5
+306,load CSV File,train.csv,0.015625,10000,5
 307,interpolate Data,train.csv,0.0,10000,5
 308,save CSV File,train.csv,0.1875,10000,5
 309,load CSV File,test.csv,0.0,10000,5
 310,interpolate Data,test.csv,0.0,10000,5
-311,save CSV File,test.csv,0.109375,10000,5
+311,save CSV File,test.csv,0.09375,10000,5
 312,load CSV File,ideal.csv,0.0,10000,5
-313,interpolate Data,ideal.csv,0.015625,10000,5
+313,interpolate Data,ideal.csv,0.03125,10000,5
 314,save CSV File,ideal.csv,1.515625,10000,5
-315,fill SQL Database,ideal.csv,1.34375,10000,5
-316,fill SQL Database,train.csv,0.15625,10000,5
-317,GET SQL Data,ideal.csv,0.5,10000,5
-318,GET SQL Data,train.csv,0.0625,10000,5
-319,Finding all Ideal Functions,,0.0625,10000,5
-320,Assigning test data,,42.5,10000,5
-321,fill SQL Database,test.csv,0.21875,10000,5
+315,fill SQL Database,ideal.csv,1.359375,10000,5
+316,fill SQL Database,train.csv,0.1875,10000,5
+317,GET SQL Data,ideal.csv,0.515625,10000,5
+318,GET SQL Data,train.csv,0.140625,10000,5
+319,Finding all Ideal Functions,,0.078125,10000,5
+320,Assigning test data,,14.0625,10000,5
+321,fill SQL Database,test.csv,0.234375,10000,5
 322,vis results,,0.53125,10000,5
 323,load CSV File,train.csv,0.0,100000,5
 324,interpolate Data,train.csv,0.015625,100000,5
-325,save CSV File,train.csv,1.78125,100000,5
+325,save CSV File,train.csv,1.75,100000,5
 326,load CSV File,test.csv,0.0,100000,5
 327,interpolate Data,test.csv,0.015625,100000,5
-328,save CSV File,test.csv,0.84375,100000,5
-329,load CSV File,ideal.csv,0.0,100000,5
-330,interpolate Data,ideal.csv,0.171875,100000,5
-331,save CSV File,ideal.csv,14.625,100000,5
-332,fill SQL Database,ideal.csv,13.78125,100000,5
-333,fill SQL Database,train.csv,1.875,100000,5
-334,GET SQL Data,ideal.csv,4.953125,100000,5
-335,GET SQL Data,train.csv,0.828125,100000,5
-336,Finding all Ideal Functions,,0.5625,100000,5
-337,Assigning test data,,1480.15625,100000,5
-338,fill SQL Database,test.csv,2.140625,100000,5
-339,vis results,,4.15625,100000,5
+328,save CSV File,test.csv,0.859375,100000,5
+329,load CSV File,ideal.csv,0.015625,100000,5
+330,interpolate Data,ideal.csv,0.15625,100000,5
+331,save CSV File,ideal.csv,14.859375,100000,5
+332,fill SQL Database,ideal.csv,13.953125,100000,5
+333,fill SQL Database,train.csv,1.96875,100000,5
+334,GET SQL Data,ideal.csv,5.09375,100000,5
+335,GET SQL Data,train.csv,0.8125,100000,5
+336,Finding all Ideal Functions,,0.53125,100000,5
+337,Assigning test data,,172.359375,100000,5
+338,fill SQL Database,test.csv,2.203125,100000,5
+339,vis results,,4.21875,100000,5
 340,load CSV File,train.csv,0.0,100,6
 341,interpolate Data,train.csv,0.0,100,6
 342,save CSV File,train.csv,0.0,100,6
 343,load CSV File,test.csv,0.0,100,6
-344,interpolate Data,test.csv,0.0,100,6
+344,interpolate Data,test.csv,0.015625,100,6
 345,save CSV File,test.csv,0.0,100,6
-346,load CSV File,ideal.csv,0.015625,100,6
+346,load CSV File,ideal.csv,0.0,100,6
 347,interpolate Data,ideal.csv,0.0,100,6
 348,save CSV File,ideal.csv,0.015625,100,6
-349,fill SQL Database,ideal.csv,0.171875,100,6
+349,fill SQL Database,ideal.csv,0.203125,100,6
 350,fill SQL Database,train.csv,0.03125,100,6
 351,GET SQL Data,ideal.csv,0.0,100,6
 352,GET SQL Data,train.csv,0.0,100,6
-353,Finding all Ideal Functions,,0.03125,100,6
-354,Assigning test data,,0.40625,100,6
+353,Finding all Ideal Functions,,0.015625,100,6
+354,Assigning test data,,0.1875,100,6
 355,fill SQL Database,test.csv,0.015625,100,6
 356,vis results,,0.125,100,6
-357,load CSV File,train.csv,0.0,1000,6
+357,load CSV File,train.csv,0.015625,1000,6
 358,interpolate Data,train.csv,0.0,1000,6
 359,save CSV File,train.csv,0.015625,1000,6
 360,load CSV File,test.csv,0.0,1000,6
@@ -364,15 +364,15 @@
 362,save CSV File,test.csv,0.015625,1000,6
 363,load CSV File,ideal.csv,0.0,1000,6
 364,interpolate Data,ideal.csv,0.015625,1000,6
-365,save CSV File,ideal.csv,0.171875,1000,6
-366,fill SQL Database,ideal.csv,0.171875,1000,6
-367,fill SQL Database,train.csv,0.03125,1000,6
+365,save CSV File,ideal.csv,0.1875,1000,6
+366,fill SQL Database,ideal.csv,0.140625,1000,6
+367,fill SQL Database,train.csv,0.015625,1000,6
 368,GET SQL Data,ideal.csv,0.046875,1000,6
 369,GET SQL Data,train.csv,0.0,1000,6
-370,Finding all Ideal Functions,,0.03125,1000,6
-371,Assigning test data,,3.84375,1000,6
+370,Finding all Ideal Functions,,0.046875,1000,6
+371,Assigning test data,,1.375,1000,6
 372,fill SQL Database,test.csv,0.015625,1000,6
-373,vis results,,0.140625,1000,6
+373,vis results,,0.15625,1000,6
 374,load CSV File,train.csv,0.0,10000,6
 375,interpolate Data,train.csv,0.0,10000,6
 376,save CSV File,train.csv,0.1875,10000,6
@@ -383,114 +383,114 @@
 381,interpolate Data,ideal.csv,0.03125,10000,6
 382,save CSV File,ideal.csv,1.5,10000,6
 383,fill SQL Database,ideal.csv,1.34375,10000,6
-384,fill SQL Database,train.csv,0.15625,10000,6
-385,GET SQL Data,ideal.csv,0.5,10000,6
-386,GET SQL Data,train.csv,0.0625,10000,6
+384,fill SQL Database,train.csv,0.171875,10000,6
+385,GET SQL Data,ideal.csv,0.46875,10000,6
+386,GET SQL Data,train.csv,0.125,10000,6
 387,Finding all Ideal Functions,,0.0625,10000,6
-388,Assigning test data,,42.484375,10000,6
+388,Assigning test data,,14.09375,10000,6
 389,fill SQL Database,test.csv,0.203125,10000,6
-390,vis results,,0.515625,10000,6
+390,vis results,,0.53125,10000,6
 391,load CSV File,train.csv,0.0,100000,6
 392,interpolate Data,train.csv,0.015625,100000,6
-393,save CSV File,train.csv,1.75,100000,6
+393,save CSV File,train.csv,1.78125,100000,6
 394,load CSV File,test.csv,0.0,100000,6
-395,interpolate Data,test.csv,0.0,100000,6
-396,save CSV File,test.csv,0.875,100000,6
+395,interpolate Data,test.csv,0.015625,100000,6
+396,save CSV File,test.csv,0.859375,100000,6
 397,load CSV File,ideal.csv,0.0,100000,6
 398,interpolate Data,ideal.csv,0.15625,100000,6
-399,save CSV File,ideal.csv,14.65625,100000,6
-400,fill SQL Database,ideal.csv,13.8125,100000,6
-401,fill SQL Database,train.csv,1.84375,100000,6
-402,GET SQL Data,ideal.csv,4.953125,100000,6
+399,save CSV File,ideal.csv,14.859375,100000,6
+400,fill SQL Database,ideal.csv,14.09375,100000,6
+401,fill SQL Database,train.csv,1.9375,100000,6
+402,GET SQL Data,ideal.csv,5.0625,100000,6
 403,GET SQL Data,train.csv,0.8125,100000,6
-404,Finding all Ideal Functions,,0.609375,100000,6
-405,Assigning test data,,1480.65625,100000,6
-406,fill SQL Database,test.csv,2.171875,100000,6
-407,vis results,,4.25,100000,6
+404,Finding all Ideal Functions,,0.515625,100000,6
+405,Assigning test data,,172.1875,100000,6
+406,fill SQL Database,test.csv,2.1875,100000,6
+407,vis results,,4.28125,100000,6
 408,load CSV File,train.csv,0.0,100,7
 409,interpolate Data,train.csv,0.0,100,7
 410,save CSV File,train.csv,0.0,100,7
 411,load CSV File,test.csv,0.0,100,7
 412,interpolate Data,test.csv,0.0,100,7
 413,save CSV File,test.csv,0.0,100,7
-414,load CSV File,ideal.csv,0.0,100,7
-415,interpolate Data,ideal.csv,0.015625,100,7
+414,load CSV File,ideal.csv,0.015625,100,7
+415,interpolate Data,ideal.csv,0.0,100,7
 416,save CSV File,ideal.csv,0.015625,100,7
-417,fill SQL Database,ideal.csv,0.203125,100,7
-418,fill SQL Database,train.csv,0.03125,100,7
-419,GET SQL Data,ideal.csv,0.0,100,7
+417,fill SQL Database,ideal.csv,0.21875,100,7
+418,fill SQL Database,train.csv,0.046875,100,7
+419,GET SQL Data,ideal.csv,0.015625,100,7
 420,GET SQL Data,train.csv,0.0,100,7
-421,Finding all Ideal Functions,,0.046875,100,7
-422,Assigning test data,,0.546875,100,7
-423,fill SQL Database,test.csv,0.0,100,7
-424,vis results,,0.171875,100,7
-425,load CSV File,train.csv,0.0,1000,7
-426,interpolate Data,train.csv,0.015625,1000,7
+421,Finding all Ideal Functions,,0.03125,100,7
+422,Assigning test data,,0.15625,100,7
+423,fill SQL Database,test.csv,0.015625,100,7
+424,vis results,,0.109375,100,7
+425,load CSV File,train.csv,0.015625,1000,7
+426,interpolate Data,train.csv,0.0,1000,7
 427,save CSV File,train.csv,0.015625,1000,7
 428,load CSV File,test.csv,0.0,1000,7
 429,interpolate Data,test.csv,0.0,1000,7
 430,save CSV File,test.csv,0.015625,1000,7
 431,load CSV File,ideal.csv,0.0,1000,7
 432,interpolate Data,ideal.csv,0.015625,1000,7
-433,save CSV File,ideal.csv,0.234375,1000,7
-434,fill SQL Database,ideal.csv,0.171875,1000,7
-435,fill SQL Database,train.csv,0.015625,1000,7
+433,save CSV File,ideal.csv,0.171875,1000,7
+434,fill SQL Database,ideal.csv,0.140625,1000,7
+435,fill SQL Database,train.csv,0.03125,1000,7
 436,GET SQL Data,ideal.csv,0.046875,1000,7
-437,GET SQL Data,train.csv,0.0,1000,7
-438,Finding all Ideal Functions,,0.046875,1000,7
-439,Assigning test data,,3.859375,1000,7
+437,GET SQL Data,train.csv,0.015625,1000,7
+438,Finding all Ideal Functions,,0.03125,1000,7
+439,Assigning test data,,1.375,1000,7
 440,fill SQL Database,test.csv,0.03125,1000,7
-441,vis results,,0.140625,1000,7
+441,vis results,,0.15625,1000,7
 442,load CSV File,train.csv,0.0,10000,7
 443,interpolate Data,train.csv,0.0,10000,7
 444,save CSV File,train.csv,0.1875,10000,7
 445,load CSV File,test.csv,0.0,10000,7
 446,interpolate Data,test.csv,0.0,10000,7
 447,save CSV File,test.csv,0.09375,10000,7
-448,load CSV File,ideal.csv,0.0,10000,7
-449,interpolate Data,ideal.csv,0.03125,10000,7
-450,save CSV File,ideal.csv,1.5,10000,7
-451,fill SQL Database,ideal.csv,1.3125,10000,7
-452,fill SQL Database,train.csv,0.15625,10000,7
-453,GET SQL Data,ideal.csv,0.5,10000,7
-454,GET SQL Data,train.csv,0.0625,10000,7
+448,load CSV File,ideal.csv,0.015625,10000,7
+449,interpolate Data,ideal.csv,0.015625,10000,7
+450,save CSV File,ideal.csv,1.515625,10000,7
+451,fill SQL Database,ideal.csv,1.390625,10000,7
+452,fill SQL Database,train.csv,0.1875,10000,7
+453,GET SQL Data,ideal.csv,0.515625,10000,7
+454,GET SQL Data,train.csv,0.109375,10000,7
 455,Finding all Ideal Functions,,0.0625,10000,7
-456,Assigning test data,,42.453125,10000,7
-457,fill SQL Database,test.csv,0.21875,10000,7
-458,vis results,,0.5,10000,7
+456,Assigning test data,,14.0,10000,7
+457,fill SQL Database,test.csv,0.234375,10000,7
+458,vis results,,0.515625,10000,7
 459,load CSV File,train.csv,0.0,100000,7
-460,interpolate Data,train.csv,0.03125,100000,7
-461,save CSV File,train.csv,1.765625,100000,7
-462,load CSV File,test.csv,0.0,100000,7
-463,interpolate Data,test.csv,0.015625,100000,7
-464,save CSV File,test.csv,0.859375,100000,7
+460,interpolate Data,train.csv,0.015625,100000,7
+461,save CSV File,train.csv,1.78125,100000,7
+462,load CSV File,test.csv,0.015625,100000,7
+463,interpolate Data,test.csv,0.0,100000,7
+464,save CSV File,test.csv,0.875,100000,7
 465,load CSV File,ideal.csv,0.0,100000,7
 466,interpolate Data,ideal.csv,0.171875,100000,7
-467,save CSV File,ideal.csv,14.65625,100000,7
-468,fill SQL Database,ideal.csv,13.84375,100000,7
-469,fill SQL Database,train.csv,1.859375,100000,7
-470,GET SQL Data,ideal.csv,4.953125,100000,7
+467,save CSV File,ideal.csv,14.75,100000,7
+468,fill SQL Database,ideal.csv,14.203125,100000,7
+469,fill SQL Database,train.csv,1.90625,100000,7
+470,GET SQL Data,ideal.csv,5.0625,100000,7
 471,GET SQL Data,train.csv,0.8125,100000,7
-472,Finding all Ideal Functions,,0.59375,100000,7
-473,Assigning test data,,1476.453125,100000,7
-474,fill SQL Database,test.csv,2.171875,100000,7
-475,vis results,,4.203125,100000,7
+472,Finding all Ideal Functions,,0.53125,100000,7
+473,Assigning test data,,171.203125,100000,7
+474,fill SQL Database,test.csv,2.15625,100000,7
+475,vis results,,4.234375,100000,7
 476,load CSV File,train.csv,0.0,100,8
 477,interpolate Data,train.csv,0.0,100,8
 478,save CSV File,train.csv,0.0,100,8
-479,load CSV File,test.csv,0.0,100,8
+479,load CSV File,test.csv,0.015625,100,8
 480,interpolate Data,test.csv,0.0,100,8
 481,save CSV File,test.csv,0.0,100,8
 482,load CSV File,ideal.csv,0.0,100,8
 483,interpolate Data,ideal.csv,0.015625,100,8
 484,save CSV File,ideal.csv,0.015625,100,8
-485,fill SQL Database,ideal.csv,0.1875,100,8
+485,fill SQL Database,ideal.csv,0.203125,100,8
 486,fill SQL Database,train.csv,0.03125,100,8
 487,GET SQL Data,ideal.csv,0.0,100,8
 488,GET SQL Data,train.csv,0.0,100,8
 489,Finding all Ideal Functions,,0.046875,100,8
-490,Assigning test data,,0.40625,100,8
-491,fill SQL Database,test.csv,0.0,100,8
+490,Assigning test data,,0.140625,100,8
+491,fill SQL Database,test.csv,0.015625,100,8
 492,vis results,,0.109375,100,8
 493,load CSV File,train.csv,0.0,1000,8
 494,interpolate Data,train.csv,0.0,1000,8
@@ -500,81 +500,81 @@
 498,save CSV File,test.csv,0.015625,1000,8
 499,load CSV File,ideal.csv,0.0,1000,8
 500,interpolate Data,ideal.csv,0.015625,1000,8
-501,save CSV File,ideal.csv,0.15625,1000,8
+501,save CSV File,ideal.csv,0.171875,1000,8
 502,fill SQL Database,ideal.csv,0.15625,1000,8
-503,fill SQL Database,train.csv,0.015625,1000,8
-504,GET SQL Data,ideal.csv,0.03125,1000,8
+503,fill SQL Database,train.csv,0.03125,1000,8
+504,GET SQL Data,ideal.csv,0.046875,1000,8
 505,GET SQL Data,train.csv,0.015625,1000,8
-506,Finding all Ideal Functions,,0.046875,1000,8
-507,Assigning test data,,3.859375,1000,8
+506,Finding all Ideal Functions,,0.03125,1000,8
+507,Assigning test data,,1.375,1000,8
 508,fill SQL Database,test.csv,0.03125,1000,8
 509,vis results,,0.15625,1000,8
 510,load CSV File,train.csv,0.0,10000,8
-511,interpolate Data,train.csv,0.0,10000,8
+511,interpolate Data,train.csv,0.015625,10000,8
 512,save CSV File,train.csv,0.1875,10000,8
 513,load CSV File,test.csv,0.0,10000,8
 514,interpolate Data,test.csv,0.0,10000,8
 515,save CSV File,test.csv,0.09375,10000,8
-516,load CSV File,ideal.csv,0.015625,10000,8
-517,interpolate Data,ideal.csv,0.015625,10000,8
+516,load CSV File,ideal.csv,0.0,10000,8
+517,interpolate Data,ideal.csv,0.03125,10000,8
 518,save CSV File,ideal.csv,1.515625,10000,8
 519,fill SQL Database,ideal.csv,1.328125,10000,8
-520,fill SQL Database,train.csv,0.15625,10000,8
-521,GET SQL Data,ideal.csv,0.5,10000,8
-522,GET SQL Data,train.csv,0.0625,10000,8
+520,fill SQL Database,train.csv,0.1875,10000,8
+521,GET SQL Data,ideal.csv,0.46875,10000,8
+522,GET SQL Data,train.csv,0.109375,10000,8
 523,Finding all Ideal Functions,,0.0625,10000,8
-524,Assigning test data,,42.46875,10000,8
-525,fill SQL Database,test.csv,0.234375,10000,8
+524,Assigning test data,,14.0625,10000,8
+525,fill SQL Database,test.csv,0.1875,10000,8
 526,vis results,,0.53125,10000,8
 527,load CSV File,train.csv,0.0,100000,8
 528,interpolate Data,train.csv,0.015625,100000,8
-529,save CSV File,train.csv,1.765625,100000,8
-530,load CSV File,test.csv,0.015625,100000,8
-531,interpolate Data,test.csv,0.0,100000,8
+529,save CSV File,train.csv,1.78125,100000,8
+530,load CSV File,test.csv,0.0,100000,8
+531,interpolate Data,test.csv,0.015625,100000,8
 532,save CSV File,test.csv,0.859375,100000,8
-533,load CSV File,ideal.csv,0.015625,100000,8
-534,interpolate Data,ideal.csv,0.15625,100000,8
-535,save CSV File,ideal.csv,14.625,100000,8
-536,fill SQL Database,ideal.csv,13.796875,100000,8
-537,fill SQL Database,train.csv,1.875,100000,8
-538,GET SQL Data,ideal.csv,4.953125,100000,8
-539,GET SQL Data,train.csv,0.828125,100000,8
-540,Finding all Ideal Functions,,0.5625,100000,8
-541,Assigning test data,,1475.4375,100000,8
-542,fill SQL Database,test.csv,2.125,100000,8
-543,vis results,,4.125,100000,8
+533,load CSV File,ideal.csv,0.0,100000,8
+534,interpolate Data,ideal.csv,0.171875,100000,8
+535,save CSV File,ideal.csv,14.90625,100000,8
+536,fill SQL Database,ideal.csv,14.234375,100000,8
+537,fill SQL Database,train.csv,1.9375,100000,8
+538,GET SQL Data,ideal.csv,5.078125,100000,8
+539,GET SQL Data,train.csv,0.8125,100000,8
+540,Finding all Ideal Functions,,0.53125,100000,8
+541,Assigning test data,,172.40625,100000,8
+542,fill SQL Database,test.csv,2.1875,100000,8
+543,vis results,,4.28125,100000,8
 544,load CSV File,train.csv,0.0,100,9
 545,interpolate Data,train.csv,0.0,100,9
-546,save CSV File,train.csv,0.0,100,9
+546,save CSV File,train.csv,0.015625,100,9
 547,load CSV File,test.csv,0.0,100,9
 548,interpolate Data,test.csv,0.0,100,9
 549,save CSV File,test.csv,0.0,100,9
 550,load CSV File,ideal.csv,0.0,100,9
-551,interpolate Data,ideal.csv,0.0,100,9
+551,interpolate Data,ideal.csv,0.015625,100,9
 552,save CSV File,ideal.csv,0.015625,100,9
-553,fill SQL Database,ideal.csv,0.1875,100,9
-554,fill SQL Database,train.csv,0.03125,100,9
+553,fill SQL Database,ideal.csv,0.203125,100,9
+554,fill SQL Database,train.csv,0.046875,100,9
 555,GET SQL Data,ideal.csv,0.0,100,9
 556,GET SQL Data,train.csv,0.0,100,9
 557,Finding all Ideal Functions,,0.046875,100,9
-558,Assigning test data,,0.390625,100,9
+558,Assigning test data,,0.171875,100,9
 559,fill SQL Database,test.csv,0.015625,100,9
-560,vis results,,0.109375,100,9
+560,vis results,,0.15625,100,9
 561,load CSV File,train.csv,0.0,1000,9
-562,interpolate Data,train.csv,0.015625,1000,9
-563,save CSV File,train.csv,0.015625,1000,9
+562,interpolate Data,train.csv,0.0,1000,9
+563,save CSV File,train.csv,0.03125,1000,9
 564,load CSV File,test.csv,0.0,1000,9
 565,interpolate Data,test.csv,0.0,1000,9
 566,save CSV File,test.csv,0.015625,1000,9
 567,load CSV File,ideal.csv,0.0,1000,9
 568,interpolate Data,ideal.csv,0.015625,1000,9
-569,save CSV File,ideal.csv,0.171875,1000,9
-570,fill SQL Database,ideal.csv,0.15625,1000,9
+569,save CSV File,ideal.csv,0.15625,1000,9
+570,fill SQL Database,ideal.csv,0.140625,1000,9
 571,fill SQL Database,train.csv,0.015625,1000,9
 572,GET SQL Data,ideal.csv,0.046875,1000,9
 573,GET SQL Data,train.csv,0.0,1000,9
-574,Finding all Ideal Functions,,0.03125,1000,9
-575,Assigning test data,,3.859375,1000,9
+574,Finding all Ideal Functions,,0.046875,1000,9
+575,Assigning test data,,1.375,1000,9
 576,fill SQL Database,test.csv,0.03125,1000,9
 577,vis results,,0.140625,1000,9
 578,load CSV File,train.csv,0.0,10000,9
@@ -582,100 +582,100 @@
 580,save CSV File,train.csv,0.1875,10000,9
 581,load CSV File,test.csv,0.0,10000,9
 582,interpolate Data,test.csv,0.0,10000,9
-583,save CSV File,test.csv,0.09375,10000,9
-584,load CSV File,ideal.csv,0.015625,10000,9
+583,save CSV File,test.csv,0.109375,10000,9
+584,load CSV File,ideal.csv,0.0,10000,9
 585,interpolate Data,ideal.csv,0.015625,10000,9
-586,save CSV File,ideal.csv,1.515625,10000,9
-587,fill SQL Database,ideal.csv,1.3125,10000,9
+586,save CSV File,ideal.csv,1.546875,10000,9
+587,fill SQL Database,ideal.csv,1.34375,10000,9
 588,fill SQL Database,train.csv,0.171875,10000,9
 589,GET SQL Data,ideal.csv,0.5,10000,9
-590,GET SQL Data,train.csv,0.046875,10000,9
-591,Finding all Ideal Functions,,0.0625,10000,9
-592,Assigning test data,,42.5,10000,9
-593,fill SQL Database,test.csv,0.21875,10000,9
-594,vis results,,0.53125,10000,9
+590,GET SQL Data,train.csv,0.140625,10000,9
+591,Finding all Ideal Functions,,0.078125,10000,9
+592,Assigning test data,,14.046875,10000,9
+593,fill SQL Database,test.csv,0.25,10000,9
+594,vis results,,0.546875,10000,9
 595,load CSV File,train.csv,0.0,100000,9
 596,interpolate Data,train.csv,0.015625,100000,9
-597,save CSV File,train.csv,1.765625,100000,9
-598,load CSV File,test.csv,0.015625,100000,9
-599,interpolate Data,test.csv,0.0,100000,9
+597,save CSV File,train.csv,1.796875,100000,9
+598,load CSV File,test.csv,0.0,100000,9
+599,interpolate Data,test.csv,0.015625,100000,9
 600,save CSV File,test.csv,0.859375,100000,9
 601,load CSV File,ideal.csv,0.015625,100000,9
 602,interpolate Data,ideal.csv,0.15625,100000,9
-603,save CSV File,ideal.csv,14.671875,100000,9
-604,fill SQL Database,ideal.csv,13.53125,100000,9
-605,fill SQL Database,train.csv,1.859375,100000,9
-606,GET SQL Data,ideal.csv,4.9375,100000,9
-607,GET SQL Data,train.csv,0.8125,100000,9
-608,Finding all Ideal Functions,,0.625,100000,9
-609,Assigning test data,,1474.125,100000,9
+603,save CSV File,ideal.csv,14.75,100000,9
+604,fill SQL Database,ideal.csv,13.953125,100000,9
+605,fill SQL Database,train.csv,1.984375,100000,9
+606,GET SQL Data,ideal.csv,5.125,100000,9
+607,GET SQL Data,train.csv,0.78125,100000,9
+608,Finding all Ideal Functions,,0.546875,100000,9
+609,Assigning test data,,172.359375,100000,9
 610,fill SQL Database,test.csv,2.171875,100000,9
-611,vis results,,4.140625,100000,9
+611,vis results,,4.25,100000,9
 612,load CSV File,train.csv,0.0,100,10
-613,interpolate Data,train.csv,0.015625,100,10
+613,interpolate Data,train.csv,0.0,100,10
 614,save CSV File,train.csv,0.0,100,10
 615,load CSV File,test.csv,0.0,100,10
 616,interpolate Data,test.csv,0.0,100,10
 617,save CSV File,test.csv,0.0,100,10
 618,load CSV File,ideal.csv,0.0,100,10
-619,interpolate Data,ideal.csv,0.015625,100,10
+619,interpolate Data,ideal.csv,0.0,100,10
 620,save CSV File,ideal.csv,0.015625,100,10
-621,fill SQL Database,ideal.csv,0.1875,100,10
-622,fill SQL Database,train.csv,0.03125,100,10
-623,GET SQL Data,ideal.csv,0.0,100,10
+621,fill SQL Database,ideal.csv,0.21875,100,10
+622,fill SQL Database,train.csv,0.046875,100,10
+623,GET SQL Data,ideal.csv,0.015625,100,10
 624,GET SQL Data,train.csv,0.0,100,10
 625,Finding all Ideal Functions,,0.03125,100,10
-626,Assigning test data,,0.40625,100,10
-627,fill SQL Database,test.csv,0.0,100,10
-628,vis results,,0.140625,100,10
+626,Assigning test data,,0.15625,100,10
+627,fill SQL Database,test.csv,0.015625,100,10
+628,vis results,,0.125,100,10
 629,load CSV File,train.csv,0.0,1000,10
 630,interpolate Data,train.csv,0.0,1000,10
 631,save CSV File,train.csv,0.015625,1000,10
 632,load CSV File,test.csv,0.0,1000,10
-633,interpolate Data,test.csv,0.0,1000,10
-634,save CSV File,test.csv,0.015625,1000,10
+633,interpolate Data,test.csv,0.015625,1000,10
+634,save CSV File,test.csv,0.0,1000,10
 635,load CSV File,ideal.csv,0.0,1000,10
-636,interpolate Data,ideal.csv,0.015625,1000,10
-637,save CSV File,ideal.csv,0.171875,1000,10
+636,interpolate Data,ideal.csv,0.0,1000,10
+637,save CSV File,ideal.csv,0.1875,1000,10
 638,fill SQL Database,ideal.csv,0.15625,1000,10
 639,fill SQL Database,train.csv,0.015625,1000,10
-640,GET SQL Data,ideal.csv,0.03125,1000,10
-641,GET SQL Data,train.csv,0.015625,1000,10
+640,GET SQL Data,ideal.csv,0.046875,1000,10
+641,GET SQL Data,train.csv,0.0,1000,10
 642,Finding all Ideal Functions,,0.046875,1000,10
-643,Assigning test data,,3.875,1000,10
-644,fill SQL Database,test.csv,0.03125,1000,10
-645,vis results,,0.15625,1000,10
+643,Assigning test data,,1.375,1000,10
+644,fill SQL Database,test.csv,0.015625,1000,10
+645,vis results,,0.140625,1000,10
 646,load CSV File,train.csv,0.0,10000,10
 647,interpolate Data,train.csv,0.0,10000,10
-648,save CSV File,train.csv,0.1875,10000,10
-649,load CSV File,test.csv,0.0,10000,10
+648,save CSV File,train.csv,0.171875,10000,10
+649,load CSV File,test.csv,0.015625,10000,10
 650,interpolate Data,test.csv,0.0,10000,10
 651,save CSV File,test.csv,0.09375,10000,10
 652,load CSV File,ideal.csv,0.0,10000,10
-653,interpolate Data,ideal.csv,0.015625,10000,10
-654,save CSV File,ideal.csv,1.515625,10000,10
-655,fill SQL Database,ideal.csv,1.3125,10000,10
-656,fill SQL Database,train.csv,0.171875,10000,10
-657,GET SQL Data,ideal.csv,0.484375,10000,10
-658,GET SQL Data,train.csv,0.0625,10000,10
+653,interpolate Data,ideal.csv,0.03125,10000,10
+654,save CSV File,ideal.csv,1.53125,10000,10
+655,fill SQL Database,ideal.csv,1.359375,10000,10
+656,fill SQL Database,train.csv,0.140625,10000,10
+657,GET SQL Data,ideal.csv,0.453125,10000,10
+658,GET SQL Data,train.csv,0.125,10000,10
 659,Finding all Ideal Functions,,0.078125,10000,10
-660,Assigning test data,,42.46875,10000,10
-661,fill SQL Database,test.csv,0.21875,10000,10
+660,Assigning test data,,14.09375,10000,10
+661,fill SQL Database,test.csv,0.1875,10000,10
 662,vis results,,0.53125,10000,10
 663,load CSV File,train.csv,0.0,100000,10
 664,interpolate Data,train.csv,0.015625,100000,10
-665,save CSV File,train.csv,1.765625,100000,10
-666,load CSV File,test.csv,0.015625,100000,10
-667,interpolate Data,test.csv,0.0,100000,10
-668,save CSV File,test.csv,0.875,100000,10
-669,load CSV File,ideal.csv,0.0,100000,10
+665,save CSV File,train.csv,1.78125,100000,10
+666,load CSV File,test.csv,0.0,100000,10
+667,interpolate Data,test.csv,0.015625,100000,10
+668,save CSV File,test.csv,0.859375,100000,10
+669,load CSV File,ideal.csv,0.015625,100000,10
 670,interpolate Data,ideal.csv,0.15625,100000,10
-671,save CSV File,ideal.csv,14.6875,100000,10
-672,fill SQL Database,ideal.csv,13.875,100000,10
-673,fill SQL Database,train.csv,1.90625,100000,10
-674,GET SQL Data,ideal.csv,4.953125,100000,10
+671,save CSV File,ideal.csv,15.046875,100000,10
+672,fill SQL Database,ideal.csv,14.125,100000,10
+673,fill SQL Database,train.csv,1.953125,100000,10
+674,GET SQL Data,ideal.csv,5.078125,100000,10
 675,GET SQL Data,train.csv,0.8125,100000,10
-676,Finding all Ideal Functions,,0.578125,100000,10
-677,Assigning test data,,1473.84375,100000,10
-678,fill SQL Database,test.csv,2.15625,100000,10
-679,vis results,,4.15625,100000,10
+676,Finding all Ideal Functions,,0.53125,100000,10
+677,Assigning test data,,172.5625,100000,10
+678,fill SQL Database,test.csv,2.1875,100000,10
+679,vis results,,4.265625,100000,10

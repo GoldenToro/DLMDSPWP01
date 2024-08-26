@@ -8,7 +8,9 @@ import argparse
 import traceback
 
 import pandas as pd
+import numpy as np
 from pandas import DataFrame
+from numba import jit
 
 from fancy_logging import logger
 from sqlite_helper import SqliteOperations
@@ -68,7 +70,6 @@ def load_dataset(db: SqliteOperations, csv_path: str, with_visualizing: bool) ->
     train_data = load_csv_data(os.path.join(csv_path, "train.csv"))
     ideal_data = load_csv_data(os.path.join(csv_path, "ideal.csv"))
 
-
     start_time = time.process_time()
     db.fill_table("train", train_data)
     end_time = time.process_time()
@@ -124,6 +125,19 @@ def get_max_deviation(col1: pd.Series, col2: pd.Series) -> float:
     return max_dev
 
 
+@jit(nopython=True)
+def calculate_min_deviation(ideal_values, y_value, max_devs):
+    min_deviation_value = np.inf
+    min_deviation_function = None
+
+    for i in range(len(ideal_values)):
+        deviation = abs(ideal_values[i] - y_value)
+        if deviation < min_deviation_value and deviation <= max_devs[i]:
+            min_deviation_value = deviation
+            min_deviation_function = i  # return index of the min deviation function
+
+    return min_deviation_function, min_deviation_value
+
 def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: dict) -> pd.DataFrame:
     """
     Assign test data to ideal functions and calculate deviations.
@@ -133,83 +147,63 @@ def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: d
     :param ideal_functions: Dictionary of ideal functions with their respective max deviations.
     :return: DataFrame containing test data with assigned ideal functions and deviations.
     """
-    test_data = pd.DataFrame()
 
-    ideal_data = ideal_data[['x', *[training_function['ideal_function'] for training_function in ideal_functions.values()]]].copy()  # get every ideal function that was mapped to a training function
+    ideal_function_names = [training_function['ideal_function'] for training_function in ideal_functions.values()]
+    ideal_data = ideal_data[['x'] + ideal_function_names].copy()
 
+    max_devs = np.array([training_function['max_deviation_factor_sqrt_two'] for training_function in ideal_functions.values()])
     '''
     would load it like the other csv-files, but it has to be loaded "line-by-line"
     test_data = load_csv_data(os.path.join(csv_path, "test.csv"))
     '''
-    try:
-        with open(csv_path, mode='r', newline='') as file:
-            csv_reader = csv.reader(file)
 
-            next(csv_reader)  # Skip the header
+    with open(csv_path, mode='r', newline='') as file:
+        csv_reader = csv.reader(file)
 
+        next(csv_reader)  # Skip the header
+        results = []
 
-            for index, row in enumerate(csv_reader):
-                row_x = float(row[0])
-                row_y = float(row[1])
+        for index, row in enumerate(csv_reader):
+            row_x = float(row[0])
+            row_y = float(row[1])
 
-                try:
-                    ideal_data_row = get_row(ideal_data, 'x', row_x)
+            ideal_data_row = ideal_data[ideal_data['x'] == row_x]
 
+            min_deviation_function = None
+            min_deviation_value = None
+
+            if len(ideal_data_row) == 1:
+
+                ideal_values = ideal_data_row[ideal_function_names].values[0]
+
+                min_deviation_index, min_deviation_value = calculate_min_deviation(ideal_values, row_y, max_devs)
+
+                if min_deviation_index is not None:
+                    min_deviation_function = ideal_function_names[min_deviation_index]
+                else:
                     min_deviation_function = None
-                    min_deviation_value = None
-
-                    if len(ideal_data_row) == 1:
-
-                        deviations = {col: abs(ideal_data_row.iloc[0][col] - row_y) for col in ideal_data_row if col != 'x'}
-
-                        min_deviation_function = min(deviations, key=deviations.get)
-                        min_deviation_value = deviations[min_deviation_function]
-
-                        # check if Deviation is higher than max Deviation factor sqrt 2
-                        max_deviation = next((value['max_deviation_factor_sqrt_two'] for key, value in ideal_functions.items() if value['ideal_function'] == min_deviation_function), None)
-
-                        #logger.info(f"For x,y: {row_x}, {row_y} Min Deviation: {min_deviation_value}({min_deviation_function}) > {max_deviation} = {min_deviation_value > max_deviation}")
-                        if min_deviation_value > max_deviation:
-                            logger.debug(f"For {row_x} with Value y: {row_y} no Min Deviation found")
-                            min_deviation_function = None
-                            min_deviation_value = None
-
-                        else:
-                            logger.debug(f"For {row_x} with Value y: {row_y} found Min Deviation with Function: {min_deviation_function}: {min_deviation_value}")
-
-                    elif len(ideal_data_row) > 1:
-                        #logger.debug(f"For {row_x} with Value y: {row_y} found multiple ideal data rows")
-                        pass
-                    elif len(ideal_data_row) < 1:
-                        #logger.debug(f"For {row_x} with Value y: {row_y} found no ideal data row")
-                        pass
-
-                    row_data = {
-                        'x': [row_x],
-                        'y': [row_y],
-                        'Delta Y': min_deviation_value,
-                        'No. of ideal func': min_deviation_function,
-                    }
-
-                    if min_deviation_function is not None:
-                        row_data['y_point_mapped'] = row_y
-                        row_data['y_point_not_found'] = None
-                    else:
-                        row_data['y_point_mapped'] = None
-                        row_data['y_point_not_found'] = row_y
-
-                    test_data = pd.concat([test_data, pd.DataFrame(row_data).set_index('x')])
-
-                except Exception as e:
-
-                    logger.warning(f"No unique match found for x={row_x} in ideal data.")
 
 
-        test_data = test_data.sort_index().reset_index()
+            row_data = {
+                'x': row_x,
+                'y': row_y,
+                'Delta Y': min_deviation_value,
+                'No. of ideal func': min_deviation_function,
+            }
 
-    except Exception as e:
-        logger.error(f"Error assigning test data: {e}")
-        logger.debug(traceback.format_exc())
+            if min_deviation_function is not None:
+                row_data['y_point_mapped'] = row_y
+                row_data['y_point_not_found'] = None
+            else:
+                row_data['y_point_mapped'] = None
+                row_data['y_point_not_found'] = row_y
+
+            results.append(row_data)
+
+    test_data = pd.DataFrame(results)
+    print("test_data:")
+    print(test_data)
+    test_data = test_data.sort_index().reset_index(drop=True)
 
     return test_data
 
@@ -292,7 +286,6 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
     logger.info("Searching Ideal Functions")
     ideal_functions = {}
 
-
     start_time = time.process_time()
     for col in training_data:
         if col != 'x':
@@ -333,7 +326,6 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
     points_assigned = test_data['No. of ideal func'].notna().sum()
     logger.info(f"Results for Test-Data: \nPoints Assigned: {points_assigned}\nPoints Unassigned: {points_unassigned}\n")
 
-
     if not db_exists or overwrite:
         db.drop_table("test")
         start_time = time.process_time()
@@ -344,8 +336,6 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
     else:
         logger.info("Not allowed to overwrite Database, set --overwrite to True for overwriting")
 
-
-
     if with_visualizing_steps or with_visualizing_result:
         logger.info("Showing Results")
 
@@ -355,13 +345,11 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
             'y_point_not_found': {'type': 'scatter', 'width': 3, 'alpha': 1, 'color': 'red'}
         }
 
-
         visualize_data = test_data.drop(columns=['Delta Y', 'No. of ideal func'])
 
         ideal_columns = [training_function['ideal_function'] for training_function in ideal_functions.values()]
         ideal_data = ideal_data[['x', *ideal_columns]].copy()
         visualize_data = pd.merge(visualize_data, ideal_data, on='x', how='outer')
-
 
         for col in ideal_data.columns:
             style[col] = {'width': 10, 'alpha': 0.3}
@@ -464,12 +452,11 @@ if __name__ == "__main__":
 
     start_all_time = time.process_time()
 
-    for i in range(1, num_tests+1):
+    for i in range(1, num_tests + 1):
 
         start_test_time = time.process_time()
 
         for j in range(0, num_iterations):
-
             results_test = pd.DataFrame()
 
             factor_in_loop = scaling_factor ** j
@@ -509,13 +496,9 @@ if __name__ == "__main__":
 
             shutil.rmtree(path_csv_data)
 
-
-
-    logger.info("\n"+results.to_string())
+    logger.info("\n" + results.to_string())
     results.to_csv("results.csv")
 
     end_time = time.process_time()
     diff_all_time = end_time - start_all_time
     logger.info(f"All Tests needed {diff_all_time}s")
-
-

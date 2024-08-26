@@ -30,7 +30,10 @@ def interpolate_data(df, factor=10):
     new_df = pd.DataFrame(index=new_index)
 
     for column in df.columns:
-        new_df[column] = np.round(np.interp(new_index, df.index, df[column]),8)
+        if column == 'x':
+            new_df[column] = np.round(np.interp(new_index, df.index, df[column]),int(math.log10(factor) + 1))
+        else:
+            new_df[column] = np.round(np.interp(new_index, df.index, df[column]),8)
 
     return new_df
 

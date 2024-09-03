@@ -15,6 +15,8 @@ from sqlite_helper import SqliteOperations
 import interpolateData
 from visualize_functions import PlotManager, FULL_SCREEN
 
+import concurrent.futures
+
 # Constants for repeated values
 DEFAULT_CSV_PATH = 'Dataset2'
 DEFAULT_DB_PATH = 'db.sqlite3'
@@ -123,6 +125,23 @@ def get_max_deviation(col1: pd.Series, col2: pd.Series) -> float:
     max_dev = deviation.max()
     return max_dev
 
+def process_row(chunk, ideal_data, deviation_dic):
+
+    try:
+
+        # Perform the merge operation between the main data and ideal_data on the 'x' column
+        merged_data = pd.merge(ideal_data, chunk, on='x', how='right', suffixes=('', '_ideal'))
+
+        # This Wonderful Line checks each row besides x and y, gets the min difference between y and the ideal functions and checks if it below its max_deviation_factor_sqrt_two
+        merged_data[['No. of ideal func', 'Delta Y']] = merged_data.iloc[:, 1:-1].sub(merged_data['y'], axis=0).abs().apply(lambda row: pd.Series((row.idxmin(), row.min()) if row.min() <= deviation_dic[row.idxmin()] else (None, None)), axis=1)
+
+        merged_data[['y_point_mapped', 'y_point_not_found']] = merged_data.apply(lambda row: pd.Series((row['y'], None) if row['No. of ideal func'] is not None else (None, row['y'])), axis=1)
+
+        return merged_data
+
+    except Exception as e:
+        logger.warning(f"Couldnt process chunk.")
+        return None
 
 def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: dict) -> pd.DataFrame:
     """
@@ -135,76 +154,30 @@ def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: d
     """
     test_data = pd.DataFrame()
 
+    chunks = []
+
     ideal_data = ideal_data[['x', *[training_function['ideal_function'] for training_function in ideal_functions.values()]]].copy()  # get every ideal function that was mapped to a training function
+    deviation_dic = {value['ideal_function']: value['max_deviation_factor_sqrt_two'] for key, value in ideal_functions.items()}
 
     '''
     would load it like the other csv-files, but it has to be loaded "line-by-line"
     test_data = load_csv_data(os.path.join(csv_path, "test.csv"))
     '''
     try:
-        with open(csv_path, mode='r', newline='') as file:
-            csv_reader = csv.reader(file)
 
-            next(csv_reader)  # Skip the header
+        with concurrent.futures.ThreadPoolExecutor() as executor:  # Use ThreadPoolExecutor for I/O-bound tasks
+            futures = []
+            for chunk in pd.read_csv(csv_path, chunksize=100, dtype={'x': 'float64', 'y': 'float64'}):
+                futures.append(executor.submit(process_row, chunk, ideal_data, deviation_dic))
 
-
-            for index, row in enumerate(csv_reader):
-                row_x = float(row[0])
-                row_y = float(row[1])
-
-                try:
-                    ideal_data_row = get_row(ideal_data, 'x', row_x)
-
-                    min_deviation_function = None
-                    min_deviation_value = None
-
-                    if len(ideal_data_row) == 1:
-
-                        deviations = {col: abs(ideal_data_row.iloc[0][col] - row_y) for col in ideal_data_row if col != 'x'}
-
-                        min_deviation_function = min(deviations, key=deviations.get)
-                        min_deviation_value = deviations[min_deviation_function]
-
-                        # check if Deviation is higher than max Deviation factor sqrt 2
-                        max_deviation = next((value['max_deviation_factor_sqrt_two'] for key, value in ideal_functions.items() if value['ideal_function'] == min_deviation_function), None)
-
-                        #logger.info(f"For x,y: {row_x}, {row_y} Min Deviation: {min_deviation_value}({min_deviation_function}) > {max_deviation} = {min_deviation_value > max_deviation}")
-                        if min_deviation_value > max_deviation:
-                            logger.debug(f"For {row_x} with Value y: {row_y} no Min Deviation found")
-                            min_deviation_function = None
-                            min_deviation_value = None
-
-                        else:
-                            logger.debug(f"For {row_x} with Value y: {row_y} found Min Deviation with Function: {min_deviation_function}: {min_deviation_value}")
-
-                    elif len(ideal_data_row) > 1:
-                        #logger.debug(f"For {row_x} with Value y: {row_y} found multiple ideal data rows")
-                        pass
-                    elif len(ideal_data_row) < 1:
-                        #logger.debug(f"For {row_x} with Value y: {row_y} found no ideal data row")
-                        pass
-
-                    row_data = {
-                        'x': [row_x],
-                        'y': [row_y],
-                        'Delta Y': min_deviation_value,
-                        'No. of ideal func': min_deviation_function,
-                    }
-
-                    if min_deviation_function is not None:
-                        row_data['y_point_mapped'] = row_y
-                        row_data['y_point_not_found'] = None
-                    else:
-                        row_data['y_point_mapped'] = None
-                        row_data['y_point_not_found'] = row_y
-
-                    test_data = pd.concat([test_data, pd.DataFrame(row_data).set_index('x')])
-
-                except Exception as e:
-
-                    logger.warning(f"No unique match found for x={row_x} in ideal data.")
+            for future in concurrent.futures.as_completed(futures):
+                result = future.result()
+                if result is not None:
+                    chunks.append(result)
 
 
+
+        test_data = pd.concat(chunks, ignore_index=True).set_index('x')
         test_data = test_data.sort_index().reset_index()
 
     except Exception as e:
@@ -328,7 +301,6 @@ def main(csv_path: str, db_path_to_file: str, overwrite: bool = None, with_visua
     test_data = assign_test_data(csv_path=os.path.join(csv_path, 'test.csv'), ideal_data=ideal_data, ideal_functions=ideal_functions)
     end_time = time.process_time()
     diff_assignTestData_time = end_time - start_time
-
     points_unassigned = test_data['No. of ideal func'].isna().sum()
     points_assigned = test_data['No. of ideal func'].notna().sum()
     logger.info(f"Results for Test-Data: \nPoints Assigned: {points_assigned}\nPoints Unassigned: {points_unassigned}\n")
@@ -392,6 +364,7 @@ Points Unassigned = {points_unassigned}
         plotmanager.show_plots()
         end_time = time.process_time()
         diff_visResults_time = end_time - start_time
+
 
     return pd.DataFrame([
         {

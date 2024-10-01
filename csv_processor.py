@@ -153,11 +153,19 @@ def assign_test_data(csv_path: str, ideal_data: pd.DataFrame, ideal_functions: d
             # Perform the merge operation between the main data and ideal_data on the 'x' column
             merged_data = pd.merge(ideal_data, chunk, on='x', how='right', suffixes=('', '_ideal'))
 
+            deviations = merged_data.iloc[:, 1:-1].sub(merged_data['y'], axis=0).abs()
+            min_deviation_values = deviations.min(axis=1)
+            min_deviation_columns = deviations.idxmin(axis=1)
 
-            # This Wonderful Line checks each row besides x and y, gets the min difference between y and the ideal functions and checks if it below its max_deviation_factor_sqrt_two
-            merged_data[['No. of ideal func', 'Delta Y']] = merged_data.iloc[:, 1:-1].sub(merged_data['y'], axis=0).abs().apply(lambda row: pd.Series((row.idxmin(), row.min()) if row.min() <= deviation_dic[row.idxmin()] else (None, None)), axis=1)
+            # Create boolean mask for where min_deviation is less than or equal to max_deviation_factor_sqrt_two
+            valid_deviations = min_deviation_values <= min_deviation_columns.map(deviation_dic)
 
-            merged_data[['y_point_mapped', 'y_point_not_found']] = merged_data.apply(lambda row: pd.Series((row['y'], None) if row['No. of ideal func'] is not None else (None, row['y'])), axis=1)
+            # Update columns based on conditions
+            merged_data['No. of ideal func'] = min_deviation_columns.where(valid_deviations, None)
+            merged_data['Delta Y'] = min_deviation_values.where(valid_deviations, None)
+
+            merged_data['y_point_mapped'] = merged_data['y'].where(merged_data['No. of ideal func'].notna(), None)
+            merged_data['y_point_not_found'] = merged_data['y'].where(merged_data['No. of ideal func'].isna(), None)
 
             chunks.append(merged_data)
 

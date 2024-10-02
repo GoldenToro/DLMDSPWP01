@@ -84,26 +84,16 @@ class PlotManager:
         p = figure(title=name, width=int(self.plt_size_x), height=int(self.plt_size_y))
 
         x = data['x'].values
+        #if len(x) > 10000:  # Or any threshold
+        #    x = x[::10]  # Downsample to every 10th point
+
         source = ColumnDataSource(data)
         legend_items = []
 
 
         for i, col in enumerate(data.columns):
             if col != 'x':
-                style_for_this_plot = {'color': colors[i]}
-                type_for_this_plot = "line"
-
-                if styles and col in styles:
-                    style_for_this_plot.update(styles[col])
-                    if 'type' in style_for_this_plot:
-                        type_for_this_plot = style_for_this_plot.pop('type')
-
-                if type_for_this_plot == 'line':
-                    renderer = p.line(x, data[col].values, **style_for_this_plot)
-                elif type_for_this_plot == 'scatter':
-                    renderer = p.scatter(x, data[col].values, **style_for_this_plot)
-                else:
-                    raise ValueError("Unsupported plot type")
+                renderer = p.line('x', col, source=source)
 
                 legend_items.append((col, [renderer]))
 
@@ -117,6 +107,7 @@ class PlotManager:
         p.add_layout(legend, 'right')
 
         p.grid.grid_line_alpha = 0.3
+        p.output_backend = "webgl"
         p.xaxis.axis_label = 'x axis'
         p.yaxis.axis_label = 'y axis'
 

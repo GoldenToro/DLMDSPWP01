@@ -9,6 +9,7 @@ file_names = [
     "results_10Rounds_I4_DataLoadingVector.csv",
     "results_10Rounds_I4_JIT.csv",
     "results_10Rounds_I4_Slow.csv",
+    "results_10Rounds_I4_Parallel.csv",
     "results_10Rounds_I4_Visualizing.csv"
 ]
 
@@ -30,6 +31,7 @@ def calculate_average_times(file_names):
 
             # Replace empty values in the 'file' column with placeholder
             data['file'] = data['file'].fillna("No File")
+            data['time'] = data['time'].fillna(0)
 
             # Extract the relevant part of the file name
             source_label = file_name.split('_')[-1].split('.')[0]
@@ -61,10 +63,10 @@ def calculate_average_times(file_names):
                            y_axis_label='Average Time in seconds',
                            # logarithmic scaling
                            x_axis_type='log',
-                           width=400, height=400)
+                           width=800, height=400)
 
                 p.xaxis.formatter = NumeralTickFormatter(format="0")
-                p.yaxis.formatter = NumeralTickFormatter(format="0.000")
+                p.yaxis.formatter = NumeralTickFormatter(format="0")
 
                 for source_name_group, source_data in group_data.groupby('source_file'):
                     source = ColumnDataSource(source_data)
@@ -98,7 +100,7 @@ def calculate_average_times(file_names):
 
         summary_plot.xaxis.major_label_orientation = 1
         summary_plot.xaxis.formatter = NumeralTickFormatter(format="0")
-        summary_plot.yaxis.formatter = NumeralTickFormatter(format="0.000")
+        summary_plot.yaxis.formatter = NumeralTickFormatter(format="0")
 
         summary_plot.legend.title = "File"
         summary_plot.legend.location = "top_left"
@@ -106,7 +108,6 @@ def calculate_average_times(file_names):
         function_rows.append(row(summary_plot))
         # Show all plots
         show(column(function_rows))
-
 
         # calculate percentages
         rows = []
@@ -129,7 +130,13 @@ def calculate_average_times(file_names):
         df["time_difference_seconds"] = df["time"] - df["slow_time"]
         df["time_difference_percentage"] = (df["time_difference_seconds"] / df["slow_time"]) * 100
 
+        print("Time Comparison of all Functions ")
+        print(combined_data.to_string())
         # Display the resulting dataframe
+        print("Time Comparison of complete Process ")
+        print(df.to_string())
+        print("Time Comparison of only Visualization ")
+        df = combined_data[combined_data["function"].str.contains("vis results", case=False, na=False)]
         print(df.to_string())
 
     except Exception as e:
